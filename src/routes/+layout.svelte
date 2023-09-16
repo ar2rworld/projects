@@ -50,6 +50,9 @@
 		home
 	</a>
 
+  <a href="/projects" aria-current={$page.url.pathname === '/projects'}>
+		projects
+	</a>
 	<a href="/about" aria-current={$page.url.pathname === '/about'}>
 		about
 	</a>
