@@ -50,24 +50,34 @@
         <li>
           <a href={scr_url}>sources</a>
         </li>
+        <li>Techonologies:</li>
       </ul>
     </div>
-    <div class='column'>
+    <div class="column">
       {#if technologies != undefined}
         {#each technologies as technology}
+          <div class="technologyImg">
             <img src={technology.img} alt={technology.alt}/>
+          </div>
         {/each}
       {:else}
-        <p>Some technologies</p>
+        <div>
+          <p>Some technologies</p>
+        </div>
       {/if}
     </div>
   </div>
   <a on:mouseenter={addDots} on:mouseleave={removeDots} class="projectView" href="/projects/{id}">
-    {hoveredProjectID === id ? more : more+"?"}
+    {hoveredProjectID === id ? more : hoveredProjectID === "" ? more : more+"?"}
   </a>
 </div>
 
 <style>
+  .project {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--fg-2);
+    height: max-content;
+  }
   p {
     margin: 0px;
   }
@@ -86,18 +96,20 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 1%;
+    /* gap: 2%; */
+    margin: 1% 0px;
   }
   img {
     width: 40%;
+  }
+  .technologyImg {
     text-align: center;
     margin: auto;
   }
   .column {
     width: 100%;
     display: grid;
-    grid-template-rows: 1fr;
+    grid-auto-flow: column;
     margin: 1%;
   }
 </style>
