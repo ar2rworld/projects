@@ -4,7 +4,8 @@ export const projects = [
     name: "NemoBot",
     src_url: "https://github.com/ar2rworld/NemoBot",
     url: "https://t.me/nemo4_bot",
-    description: "Some long text",
+    description: "Hello there, just a simple telegram bot friends conversation Has a youtube notificator feature by subscribing to pubsubhubbub's rss to send a message about new uploaded videos.\nAble to echo some phrases to the chat if key words were found.\n50/50 chance commands",
+    descriptionHTML: "Hello there, just a simple telegram bot friends conversation<br/>Has a youtube notificator feature by subscribing to pubsubhubbub's rss to send a message about new uploaded videos.<br/>Able to echo some phrases to the chat if key words were found.<br/>50/50 chance commands.",
     technologies: [
       {
         name: "python",
@@ -28,7 +29,7 @@ export const projects = [
     name: "OsyNe telegram video downloader",
     src_url: "https://github.com/ar2rworld/osyne-telegram-video-downloader",
     url: "https://t.me/dih_video_downloader_bot",
-    description: "Some long text",
+    description: "OsyNe telegram video downloader is a Go-based Telegram bot that allows users to download videos from various sources such as TikTok, Twitter, Youtube shorts and Instagram. It downloads the video content and sends it back to the user as a reply to their message.",
     technologies: [ 
       {
         name: "golang",

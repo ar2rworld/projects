@@ -14,7 +14,12 @@
 
   <p>You can find sources <a href={project.src_url}>here</a></p>
 
-  <p>{project.description}</p>
+  {#if project.descriptionHTML != undefined}
+    {@html project.descriptionHTML}  
+  {:else}
+    <p>{project.description}</p>
+  {/if}
+  
 
   {#if project.technologies}
     <h4>Built with:</h4>
