@@ -1,5 +1,5 @@
 <script lang='ts'>
-  import { hoveredProject } from "../../stores/HoveredProject"
+  import { hoveredProject } from "../stores/HoveredProject"
 
   export let id: string;
   export let name: string;
@@ -32,7 +32,6 @@
 
   let hoveredProjectID: string;
   hoveredProject.subscribe( id => hoveredProjectID = id );
-  // import src from "%sveltekit.assets%/telegram.png"; // "%sveltekit.assets%/{technology}";
 </script>
 
 <div class='project'>
