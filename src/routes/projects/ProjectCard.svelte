@@ -2,7 +2,7 @@
   export let id: string;
   export let name: string;
   export let url: string | undefined;
-  export let scr_url: string;
+  export let src_url: string;
   export let technologies: {
     name: string,
     alt: string,
@@ -21,7 +21,7 @@
         more += '.'
         c += 1
       }
-    }, 500)
+    }, 200)
     hoveredProject.update(() => id)
   }
   function removeDots() {
@@ -48,7 +48,7 @@
           {/if}
         </li>
         <li>
-          <a href={scr_url}>sources</a>
+          <a href={src_url}>sources</a>
         </li>
         <li>Techonologies:</li>
       </ul>
@@ -100,7 +100,7 @@
     margin: 1% 0px;
   }
   img {
-    width: 40%;
+    max-height: 50px;
   }
   .technologyImg {
     text-align: center;

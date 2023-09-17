@@ -8,11 +8,11 @@
 <div class='projectsContainer'>
   {#each projects as project}
     <ProjectCard
-    id={project.id}
-    name={project.name}
-    url={project.url}
-    scr_url={project.scr_url}
-    technologies={project.technologies}
+      id={project.id}
+      name={project.name}
+      url={project.url}
+      src_url={project.src_url}
+      technologies={project.technologies}
     />
   {/each}
 </div>
