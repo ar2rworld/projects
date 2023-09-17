@@ -1,6 +1,6 @@
 <script>
   import ProjectCard from './ProjectCard.svelte';
-  import { projects } from './data.js';
+  import { projects } from '../../stores/data';
 </script>
 
 <h1>Here should be some projects:</h1>
