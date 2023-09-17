@@ -1,4 +1,6 @@
 <script lang='ts'>
+  import { hoveredProject } from "../../stores/HoveredProject"
+
   export let id: string;
   export let name: string;
   export let url: string | undefined;
@@ -11,8 +13,6 @@
 
   let more = 'more';
   let interval : NodeJS.Timeout;
-
-  import { hoveredProject } from "../../stores/HoveredProject";
 
   function addDots() {
     let c = 0;
