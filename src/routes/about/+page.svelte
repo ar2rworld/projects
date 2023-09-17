@@ -51,4 +51,7 @@
     padding: 2px;
     font-size: 105%;
   }
+  address {
+    margin: 1%;
+  }
 </style>
