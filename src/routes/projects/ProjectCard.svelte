@@ -12,7 +12,7 @@
   let more = 'more';
   let interval : NodeJS.Timeout;
 
-  import { hoveredProject } from "../../stores/hoveredProject";
+  import { hoveredProject } from "../../stores/HoveredProject";
 
   function addDots() {
     let c = 0;
