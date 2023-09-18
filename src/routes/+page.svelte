@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Hint from "../components/Hint.svelte";
+
   import { RevealedPhrases, RevealedStore } from "../stores/RevealedStore";
   const handleLifeReveal = () => {
     $RevealedStore.LIFE = true;
@@ -16,6 +18,7 @@
   <br>
   <h3 on:mouseenter={handleLifeReveal}>I hope that you will have a good { $RevealedStore.LIFE ? RevealedPhrases.LIFE : "..." }</h3>
   <h3 on:mouseenter={handleHomeInfoReveal}>If you click on the "projects" tab you will find { $RevealedStore.HOMEINFO ? RevealedPhrases.HOMEINFO : "...." }</h3>
+  <Hint />
 </div>
 
 <style>

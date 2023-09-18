@@ -1,0 +1,104 @@
+<script lang="ts">
+  import { fly } from 'svelte/transition';
+  import { elasticOut } from 'svelte/easing';
+	import { hoveredHint } from '../stores/HoveredProject';
+
+  let radius = 60;
+  let show = false;
+  let frozen = false;
+
+  const t = setTimeout(() => {
+    if ( ! $hoveredHint ) {
+      $hoveredHint = true;
+      show = true;
+    }
+    clearTimeout(t)
+  });
+  
+  const handleHide = () => {
+    if (! frozen) {
+      show = false;
+      frozen = true;
+      const t = setTimeout(() => {
+        frozen = false;
+        clearTimeout(t);
+      }, 1000);
+    }
+  }
+  const handleShow = () => {
+    show = true;
+  }
+
+  const spin = (node: Node, { duration }: { duration: number }) => {
+		return {
+			duration,
+			css: (t: number) => {
+        const eased = elasticOut(t);
+
+				return `
+          transform: scale(${eased * 0.2 + 0.8});
+					fill: hsl(
+						${Math.trunc(t * 360)},
+						${Math.min(50, 1000 * (1 - t))}%,
+						${Math.min(50, 500 * (1 - t))}%
+					);`;
+			}
+		};
+	}
+
+</script>
+
+<!-- <div in:fly={{duration: 750, x: -100}} out:fade> -->
+{#if show}
+  <div
+    in:fly={{duration: 1000, x: -300, opacity:0.1}}
+    out:fly={{x: -300}}
+  >
+    <p on:mouseenter={handleHide}><i>Sometimes it is helpful to hover over "..."</i></p>
+    <svg width="180" height="180">
+      <circle class="outer" in:spin={{duration: 5000}} cx="60" cy="70" r={radius} />
+      <circle class="inner" cx="60" cy="70"  r="50" />
+    </svg>
+  </div>
+{:else}
+  <div class="hint">
+    <button on:mouseenter={handleShow}>hint</button>
+  </div>
+{/if}
+
+<style>
+  svg {
+    position: absolute;
+    top: -35px;
+    left: -10px;
+    z-index: -1;
+  }
+  div {
+    z-index: 1;
+    font-size: smaller;
+    position: absolute;
+    width: 100px;
+    top: 45%;
+  }
+  p {
+    margin: 0px;
+  }
+  .inner {
+    fill: var(--bg-1);
+    opacity: 0.6;
+  }
+  .outer {
+    fill: var(--bg-3);
+    opacity: 0.5;
+  }
+  .hint {
+    rotate: 90deg;
+    left: -40px;
+  }
+  button {
+    width: 50px;
+    height: 20px;
+    background-color: var(--bg-3);
+    border: none;
+  }
+</style>
