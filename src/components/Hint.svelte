@@ -3,7 +3,7 @@
   import { elasticOut } from 'svelte/easing';
 	import { hoveredHint, hintVisibility, hintShown } from '../stores/HoveredProject';
 
-  const PopinDuration = 5000;
+  const PopinDuration = 100;
   let radius = 60;
   let show = false;
   let frozen = false;
@@ -78,7 +78,7 @@
     font-size: smaller;
     position: absolute;
     width: 100px;
-    top: 45%;
+    top: 220px;
   }
   p {
     margin: 0px;
@@ -93,10 +93,12 @@
   }
   .hint {
     rotate: 90deg;
+    text-align: center;
   }
   button {
+    color: var(--fg-2);
     width: 50px;
-    height: 20px;
+    height: 15px;
     background-color: var(--bg-3);
     border: none;
   }

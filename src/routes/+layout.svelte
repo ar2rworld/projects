@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import Hint from '../components/Hint.svelte';
 
   const STORAGE_KEY = 'theme';
   const DARK_PREFERENCE = '(prefers-color-scheme: dark)';
@@ -57,6 +58,7 @@
 		about
 	</a>
   <input class='toggleTheme' type="checkbox" checked={currentTheme !== THEMES.DARK} on:click={toggleTheme} />
+  <Hint />
 </nav>
 
 <slot />

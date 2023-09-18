@@ -4,14 +4,13 @@ export const hoveredProject = writable("");
 
 export const hoveredHint = writable(false);
 
-export const hintVisibility = writable(-40);
+export const hintVisibility = writable(-62);
 
 export const hintShown = () => {
   hintVisibility.update((v) => {
-    console.log(v);
-    if (v -4 >= -56) {
-      return v-4;
+    if (v - 5 >= -72) {
+      return v - 5;
     }
-    return v;
+    return -72;
   });
 }
