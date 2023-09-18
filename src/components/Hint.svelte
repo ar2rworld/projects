@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { elasticOut } from 'svelte/easing';
-	import { hoveredHint, hintVisibility, hintShown } from '../stores/HoveredProject';
+	import { hoveredHint, hintVisibility, hintShown } from '../stores/Hint';
 
   const PopinDuration = 100;
   let radius = 60;
