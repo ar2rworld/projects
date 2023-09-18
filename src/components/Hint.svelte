@@ -9,20 +9,20 @@
 
   const t = setTimeout(() => {
     if ( ! $hoveredHint ) {
-      $hoveredHint = true;
       show = true;
     }
-    clearTimeout(t)
+    clearTimeout(t);
   });
   
   const handleHide = () => {
+    $hoveredHint = true;
     if (! frozen) {
       show = false;
       frozen = true;
       const t = setTimeout(() => {
         frozen = false;
         clearTimeout(t);
-      }, 1000);
+      }, 5000);
     }
   }
   const handleShow = () => {
@@ -45,10 +45,8 @@
 			}
 		};
 	}
-
 </script>
 
-<!-- <div in:fly={{duration: 750, x: -100}} out:fade> -->
 {#if show}
   <div
     in:fly={{duration: 1000, x: -300, opacity:0.1}}
