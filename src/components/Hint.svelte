@@ -3,7 +3,7 @@
   import { elasticOut } from 'svelte/easing';
 	import { hoveredHint, hintVisibility, hintShown } from '../stores/HoveredProject';
 
-  const PopinDuration = 100;
+  const PopinDuration = 5000;
   let radius = 60;
   let show = false;
   let frozen = false;
