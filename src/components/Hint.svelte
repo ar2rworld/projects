@@ -1,8 +1,9 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import { elasticOut } from 'svelte/easing';
-	import { hoveredHint } from '../stores/HoveredProject';
+	import { hoveredHint, hintVisibility, hintShown } from '../stores/HoveredProject';
 
+  const PopinDuration = 100;
   let radius = 60;
   let show = false;
   let frozen = false;
@@ -22,10 +23,11 @@
       const t = setTimeout(() => {
         frozen = false;
         clearTimeout(t);
-      }, 5000);
+      }, PopinDuration);
     }
   }
   const handleShow = () => {
+    hintShown();
     show = true;
   }
 
@@ -54,12 +56,12 @@
   >
     <p on:mouseenter={handleHide}><i>Sometimes it is helpful to hover over "..."</i></p>
     <svg width="180" height="180">
-      <circle class="outer" in:spin={{duration: 5000}} cx="60" cy="70" r={radius} />
+      <circle class="outer" in:spin={{duration: PopinDuration}} cx="60" cy="70" r={radius} />
       <circle class="inner" cx="60" cy="70"  r="50" />
     </svg>
   </div>
 {:else}
-  <div class="hint">
+  <div class="hint" style="left:{$hintVisibility}px;">
     <button on:mouseenter={handleShow}>hint</button>
   </div>
 {/if}
@@ -91,7 +93,6 @@
   }
   .hint {
     rotate: 90deg;
-    left: -40px;
   }
   button {
     width: 50px;
