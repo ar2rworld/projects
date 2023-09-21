@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Hint from '../components/Hint.svelte';
+	import HintFeedback from '../components/HintFeedback.svelte';
 
   const STORAGE_KEY = 'theme';
   const DARK_PREFERENCE = '(prefers-color-scheme: dark)';
@@ -57,6 +58,7 @@
 	<a href="/about" aria-current={$page.url.pathname === '/about'}>
 		about
 	</a>
+  <HintFeedback />
   <input class='toggleTheme' type="checkbox" checked={currentTheme !== THEMES.DARK} on:click={toggleTheme} />
   <Hint />
 </nav>
