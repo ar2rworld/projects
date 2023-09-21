@@ -2,6 +2,7 @@
   import { fly } from 'svelte/transition';
   import { elasticOut } from 'svelte/easing';
 	import { hoveredHint, hintVisibility, hintShown } from '../stores/HintFeedback';
+	import { RevealedStoreKeysE, handleReveal } from '../stores/RevealedStore';
 
   const PopinDuration = 100;
   let radius = 60;
@@ -16,6 +17,7 @@
   });
   
   const handleHide = () => {
+    handleReveal(RevealedStoreKeysE.HINTBADGE);
     $hoveredHint = true;
     if (! frozen) {
       show = false;
