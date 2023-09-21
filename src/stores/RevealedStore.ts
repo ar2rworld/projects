@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { hintFeedback } from './HintFeedback';
 
 const RevealedStoreKeys = {
   LIFE     : 0,
@@ -24,6 +25,8 @@ export const RevealedStore = writable({
   LINKEDIN: false,
 });
 
+export const RevealedHints = writable(0);
+
 export const handleReveal = (key: RevealedStoreKeysE) => {
   RevealedStore.update(s => {
     switch (key) {
@@ -43,6 +46,28 @@ export const handleReveal = (key: RevealedStoreKeysE) => {
         s.LINKEDIN = true;
         break;
     }
+
+    // count how many hints were revealed
+    RevealedHints.update( () => {
+      const revealedHints = Object.values(s).filter( v => v == true).length;
+
+      if ( revealedHints == 1 ) {
+        // resetVisibility();
+        // feedbackMessagePush(hintFeedbackMessages[0]);
+        hintFeedback.push(hintFeedbackMessages[0]);
+      }
+      if ( revealedHints == 2 ) {
+        // resetVisibility();
+        hintFeedback.push(hintFeedbackMessages[1]);
+      }
+      if ( revealedHints == 3 ) {
+        // resetVisibility();
+        hintFeedback.push(hintFeedbackMessages[2]);
+      }
+
+      return revealedHints;
+    });
+
     return s;
   })
 }
@@ -54,3 +79,9 @@ export const RevealedPhrases = {
   EMAIL: "ar2r(dot)world(at)gmail(dot)com",
   LINKEDIN: "https://www.linkedin.com/in/artur-linnik-ba42b4192/"
 }
+
+const hintFeedbackMessages = [
+  "Nice, you've got it!",
+  "Nice one",
+  "You are the master."
+];
