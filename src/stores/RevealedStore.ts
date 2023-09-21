@@ -52,17 +52,22 @@ export const handleReveal = (key: RevealedStoreKeysE) => {
       const revealedHints = Object.values(s).filter( v => v == true).length;
 
       if ( revealedHints == 1 ) {
-        // resetVisibility();
-        // feedbackMessagePush(hintFeedbackMessages[0]);
-        hintFeedback.push(hintFeedbackMessages[0]);
-      }
-      if ( revealedHints == 2 ) {
-        // resetVisibility();
-        hintFeedback.push(hintFeedbackMessages[1]);
+        if (! hintFeedbackMessages[0].used ) {
+          hintFeedback.push(hintFeedbackMessages[0].message);
+          hintFeedbackMessages[0].used = true;
+        }
       }
       if ( revealedHints == 3 ) {
-        // resetVisibility();
-        hintFeedback.push(hintFeedbackMessages[2]);
+        if (! hintFeedbackMessages[1].used ) {
+          hintFeedback.push(hintFeedbackMessages[1].message);
+          hintFeedbackMessages[1].used = true;
+        }
+      }
+      if ( revealedHints == 5 ) {
+        if (! hintFeedbackMessages[2].used ) {
+          hintFeedback.push(hintFeedbackMessages[2].message);
+          hintFeedbackMessages[2].used = true;
+        }
       }
 
       return revealedHints;
@@ -81,7 +86,16 @@ export const RevealedPhrases = {
 }
 
 const hintFeedbackMessages = [
-  "Nice, you've got it!",
-  "Nice one",
-  "You are the master."
+  {
+    message: "Nice, you've got it!",
+    used: false
+  },
+  {
+    message: "Nice one",
+    used: false
+  },
+  {
+    message: "You are the master!",
+    used: false
+  }
 ];
