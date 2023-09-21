@@ -4,7 +4,7 @@
 	import { hoveredHint, hintVisibility, hintShown } from '../stores/HintFeedback';
 	import { RevealedStoreKeysE, handleReveal } from '../stores/RevealedStore';
 
-  const PopinDuration = 100;
+  const PopinDuration = 5000;
   let radius = 60;
   let show = false;
   let frozen = false;
