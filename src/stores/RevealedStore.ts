@@ -2,19 +2,21 @@ import { writable } from 'svelte/store';
 import { hintFeedback } from './HintFeedback';
 
 const RevealedStoreKeys = {
-  LIFE     : 0,
-  HOMEINFO : 1,
-  GITHUB   : 2,
-  EMAIL    : 3,
-  LINKEDIN : 4
+  LIFE      : 0,
+  HOMEINFO  : 1,
+  GITHUB    : 2,
+  EMAIL     : 3,
+  LINKEDIN  : 4,
+  HINTBADGE : 5
 }
 
 export enum RevealedStoreKeysE { 
-  LIFE     = RevealedStoreKeys.LIFE,
-  HOMEINFO = RevealedStoreKeys.HOMEINFO,
-  GITHUB   = RevealedStoreKeys.GITHUB,
-  EMAIL    = RevealedStoreKeys.EMAIL,
-  LINKEDIN = RevealedStoreKeys.LINKEDIN
+  LIFE      = RevealedStoreKeys.LIFE,
+  HOMEINFO  = RevealedStoreKeys.HOMEINFO,
+  GITHUB    = RevealedStoreKeys.GITHUB,
+  EMAIL     = RevealedStoreKeys.EMAIL,
+  LINKEDIN  = RevealedStoreKeys.LINKEDIN,
+  HINTBADGE = RevealedStoreKeys.HINTBADGE
 }
 
 export const RevealedStore = writable({
@@ -23,6 +25,7 @@ export const RevealedStore = writable({
   GITHUB: false,
   EMAIL: false,
   LINKEDIN: false,
+  HINTBADGE: false
 });
 
 export const RevealedHints = writable(0);
@@ -45,29 +48,39 @@ export const handleReveal = (key: RevealedStoreKeysE) => {
       case RevealedStoreKeysE.LINKEDIN:
         s.LINKEDIN = true;
         break;
+      case RevealedStoreKeysE.HINTBADGE:
+        s.HINTBADGE = true;
+        break;
     }
 
     // count how many hints were revealed
     RevealedHints.update( () => {
       const revealedHints = Object.values(s).filter( v => v == true).length;
 
-      if ( revealedHints == 1 ) {
-        if (! hintFeedbackMessages[0].used ) {
-          hintFeedback.push(hintFeedbackMessages[0].message);
-          hintFeedbackMessages[0].used = true;
-        }
-      }
-      if ( revealedHints == 3 ) {
-        if (! hintFeedbackMessages[1].used ) {
-          hintFeedback.push(hintFeedbackMessages[1].message);
-          hintFeedbackMessages[1].used = true;
-        }
-      }
-      if ( revealedHints == 5 ) {
-        if (! hintFeedbackMessages[2].used ) {
-          hintFeedback.push(hintFeedbackMessages[2].message);
-          hintFeedbackMessages[2].used = true;
-        }
+      switch ( revealedHints ) {
+        case 1:
+          if (! hintFeedbackMessages[0].used ) {
+            hintFeedback.push(hintFeedbackMessages[0].message);
+            hintFeedbackMessages[0].used = true;
+          }
+          break;
+        case 3:
+          if (! hintFeedbackMessages[1].used ) {
+            hintFeedback.push(hintFeedbackMessages[1].message);
+            hintFeedbackMessages[1].used = true;
+          }
+          break;
+        case 5:
+          if (! hintFeedbackMessages[2].used ) {
+            hintFeedback.push(hintFeedbackMessages[2].message);
+            hintFeedbackMessages[2].used = true;
+          }
+          break;
+        case 6:
+          if (! hintFeedbackMessages[3].used ) {
+            hintFeedback.push(hintFeedbackMessages[3].message);
+            hintFeedbackMessages[3].used = true;
+          }
       }
 
       return revealedHints;
@@ -86,6 +99,10 @@ export const RevealedPhrases = {
 }
 
 const hintFeedbackMessages = [
+  {
+    message: "Good, keep going...",
+    used: false
+  },
   {
     message: "Nice, you've got it!",
     used: false
