@@ -70,6 +70,7 @@ export const projects = [
     id: "4",
     name: "projects",
     src_url: "https://github.com/ar2rworld/projects",
+    url: "https://ar2rworld-projects.vercel.app/",
     descriptionHTML: "<h3>This project was quite interesting to develop</h3><h4>As I have heard about svelte a lot, I always wanted to try, but never got a chance.</h4><p>Had to deal with many challenges and problems while studying Sveltejs framework<img  style='margin:0px 5px;width:16px;' src='/svelte.png' /></p><p>Even ended up writing a post to <a href='https://dev.to/ar2rworld/if-your-svelte-application-relies-a-lot-on-store-notifications-you-must-be-careful-3ebl' target='_blank'>dev.to</a> about svelte stores notification specific.",
     technologies: [
       {
