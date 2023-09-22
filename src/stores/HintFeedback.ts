@@ -48,14 +48,15 @@ class HintFeedback {
     this.message = writable<messageI>();
 
     const unsubscribe = this.queueWritable.subscribe((q: string[]) => {
-      if (q.length > 0) {
+      if (q.length == 0) {
+        return;
+      }
 
-        if (!this.isLocked() && q.length > 0) {
-          this.lock();
+      if (!this.isLocked()) {
+        this.lock();
 
-          const message = this.pop();
-          this.message.set({ message: message });
-        }
+        const message = this.pop();
+        this.message.set({ message: message });
       }
     });
 
