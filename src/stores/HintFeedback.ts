@@ -1,6 +1,5 @@
 import { onDestroy } from 'svelte';
 import { writable, type Unsubscriber, type Writable, get } from 'svelte/store';
-// import { derived, type Readable } from 'svelte/store';
 
 export const hoveredHint = writable(false);
 
@@ -56,25 +55,17 @@ class HintFeedback {
 
           const message = this.pop();
           this.message.set({ message: message });
-          console.log("unsubscribe: set the message:", message);
-        } else {
-          console.log("unsubscribe: didn't match the !this.isLocked() && q.length > 0;", `isLocked:${this.isLocked()} , q.length:${q.length}`);
         }
-      } else {
-        console.log("unsubscribe: empty update:", q);
       }
     });
 
     const unsubscribe1 = this.mutexWritable.subscribe(() => {
       this.queueWritable.update(q => q);
-      console.log("unsubscribe1: updated the mutex");
     });
 
     const unsubscribe2 = this.waitTimeWritable.subscribe((time: timeI) => {
       if (time) {
         this.unlockIn(time);
-        console.log("unsubscribe2: updated for time:", time);
-        this.queueWritable.update(q => q);
       }
     });
 
@@ -88,22 +79,19 @@ class HintFeedback {
   unlockIn(n: timeI) {
     const { time } = n;
     const t = setTimeout(() => {
-      console.log("unlocked after:", n);
       this.mutexWritable.set({ mutex: false });
+
       clearTimeout(t);
     }, time);
   }
 
   isLocked(): boolean {
-    console.log("isLocked(): ", get(this.mutexWritable));
     return get(this.mutexWritable).mutex;
   }
 
   push(m: string) {
     this.queueWritable.update(q => {
       q.push(m);
-
-      console.log("pushed to message:", m, "q:", q);
       
       return q;
     });
@@ -120,8 +108,6 @@ class HintFeedback {
 
       return q;
     });
-
-    console.log(`poped(): ${out}`);
 
     return out;
   }
