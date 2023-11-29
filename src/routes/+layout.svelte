@@ -64,9 +64,7 @@
 	<a href="/shop" aria-current={$page.url.pathname === '/shop'}>
 		shop
 	</a>
-	<a href="/login">
-		<button>login</button>
-	</a>
+  <button>login</button>
   <HintFeedback />
   <input class='toggleTheme' type="checkbox" checked={currentTheme !== THEMES.DARK} on:click={toggleTheme} />
   <Hint />
