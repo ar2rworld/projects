@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "https://192.18.155.170/(.*)",
+      "source": "192.18.155.170/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
         { "key": "Access-Control-Allow-Origin", "value": "*" },
