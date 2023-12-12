@@ -8,7 +8,12 @@
     e.preventDefault();
     console.log("submit");
 
-    fetch(baseUrl + "/login", { body: JSON.stringify({ "username": username, "password": password})})
+    fetch(baseUrl + "/login",
+      {
+        method: "POST",
+        body: JSON.stringify({ "username": username, "password": password})
+      }
+    )
     .then(v => console.log(v.json()))
     .catch(e => console.log(e))
   }
