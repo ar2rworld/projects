@@ -64,7 +64,9 @@
 	<a href="/shop" aria-current={$page.url.pathname === '/shop'}>
 		shop
 	</a>
-  <button>login</button>
+  <a href="/login" aria-current={$page.url.pathname === '/login'}>
+    login
+  </a>
   <HintFeedback />
   <input class='toggleTheme' type="checkbox" checked={currentTheme !== THEMES.DARK} on:click={toggleTheme} />
   <Hint />
@@ -76,10 +78,5 @@
   .toggleTheme {
     margin-left:auto;
     text-align: end;
-  }
-  button {
-    border: none;
-    color: var(--fg-2);
-    background: var(--bg-3);
   }
 </style>
