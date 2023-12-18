@@ -46,6 +46,14 @@
   });
 </script>
 
+<svelte:head>
+{ #if currentTheme == THEMES.DARK }
+  <link rel="stylesheet" href="/smui-dark.css" />
+{ :else }
+  <link rel="stylesheet" href="/smui.css" />
+{ /if }
+</svelte:head>
+
 
 <nav>
 	<a href="/" aria-current={$page.url.pathname === '/'}>
