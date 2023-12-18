@@ -78,7 +78,7 @@
       </div>
     </Cell>
     <Cell span="4">
-      { #if showMessage || true }
+      { #if showMessage }
           <p>{@html message}</p>
       { /if }
     </Cell>
