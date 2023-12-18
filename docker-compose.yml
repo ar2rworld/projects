@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:15.5'
+    
+    ports:
+      - 5432:5432
+
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: ${POSTGRES_USER} # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: ${POSTGRES_DB} # The PostgreSQL default database (automatically created at first launch)
+    volumes:
+      - postgresql:/var/lib/postgresql/data/
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.2
+    environment:
+      KC_DB: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - 'start-dev'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+volumes:
+  postgresql:
