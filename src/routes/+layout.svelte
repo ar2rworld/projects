@@ -1,8 +1,9 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import Hint from '../components/Hint.svelte';
 	import HintFeedback from '../components/HintFeedback.svelte';
+	import { LoginTokens } from '../stores/loginTokens';
 
   const STORAGE_KEY = 'theme';
   const DARK_PREFERENCE = '(prefers-color-scheme: dark)';
@@ -40,9 +41,43 @@
     }
   };
 
+  const setupLoginTokens = () => {
+    let accessToken = "";
+    let refreshToken = "";
+    let expiresIn = "";
+    accessToken = localStorage.getItem("accessToken") || ""
+    refreshToken = localStorage.getItem("refreshToken") || ""
+    expiresIn = localStorage.getItem("expiresIn") || ""
+    if (accessToken) {
+    LoginTokens.update((v) => {
+        v.accessToken = accessToken
+        return v
+      })
+    }
+    if (refreshToken) {
+      LoginTokens.update((v) => {
+        v.refreshToken = refreshToken
+        return v
+      })
+    }
+    if (expiresIn) {
+      LoginTokens.update((v) => {
+        v.expiresIn = Number(expiresIn)
+        return v
+      })
+    }
+    
+    LoginTokens.subscribe(v => {
+      localStorage.setItem("accessToken", v.accessToken);
+      localStorage.setItem("refreshToken", v.refreshToken);
+      localStorage.setItem("expiresIn", v.expiresIn.toString());
+    });
+  }
+
   onMount(() => {
     applyTheme();
     window.matchMedia(DARK_PREFERENCE).addEventListener('change', applyTheme);
+    setupLoginTokens();
   });
 </script>
 
