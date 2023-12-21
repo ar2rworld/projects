@@ -4,6 +4,9 @@
 	import Hint from '../components/Hint.svelte';
 	import HintFeedback from '../components/HintFeedback.svelte';
 	import { LoginTokens } from '../stores/loginTokens';
+  import { Me } from '../stores/me';
+	import type { ILoginTokens } from '../types/login';
+	import axios from 'axios';
 
   const STORAGE_KEY = 'theme';
   const DARK_PREFERENCE = '(prefers-color-scheme: dark)';
@@ -74,10 +77,18 @@
     });
   }
 
+  let username: string;
+  const setupMe = () => {
+    Me.subscribe(v => {
+      username = v.Username;
+    });
+  };
+
   onMount(() => {
     applyTheme();
     window.matchMedia(DARK_PREFERENCE).addEventListener('change', applyTheme);
     setupLoginTokens();
+    setupMe();
   });
 </script>
 
@@ -108,7 +119,7 @@
 		shop
 	</a>
   <a href="/login" aria-current={$page.url.pathname === '/login'}>
-    login
+    { ! username ? "login" : "me" }
   </a>
   <HintFeedback />
   <input class='toggleTheme' type="checkbox" checked={currentTheme !== THEMES.DARK} on:click={toggleTheme} />

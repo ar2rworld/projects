@@ -2,13 +2,19 @@
   import LayoutGrid, { Cell } from '@smui/layout-grid';
   import Button, { Label } from '@smui/button';
   import Textfield from '@smui/textfield';
+  import Checkbox from '@smui/checkbox';
+  import { onDestroy } from 'svelte';
 
   import axios, { Axios, AxiosError } from 'axios';
   import type { ILoginTokens } from '../../types/login';
+  import type { IMe } from '../../types/me';
 	import { LoginTokens } from '../../stores/loginTokens';
+  import { Me } from '../../stores/me';
 
-  let username: string = "a";
-  let password: string = "dmin";
+  let me: IMe;
+
+  let FormUsername: string = "a";
+  let FormPassword: string = "admin";
 
   let message = "";
   let showMessage = false;
@@ -20,13 +26,16 @@
     error = "";
     message = "";
 
-    const data = { username, password };
+    const data = { username: FormUsername, password: FormPassword };
 
     axios.post(baseUrl + "/login", data)
     .then(d => {
       const loginTokens = d.data as ILoginTokens;
       LoginTokens.set(loginTokens);
-      console.log(loginTokens);
+
+      const m = d.data as IMe;
+
+      Me.set(m);
     })
     .catch(e => {
       console.log(e)
@@ -47,43 +56,74 @@
     })
   }
 
+  const logout = () => {
+    Me.set({ Username: "", FirstName: "", LastName: "", FullName: "", EmailVerified: false });
+    LoginTokens.set({ accessToken: "", refreshToken: "", expiresIn: 0});
+
+    // TODO call /logout
+  }
+
+  const unsubscribe = Me.subscribe(v => {
+    me = v;
+  });
+
+  onDestroy(() => unsubscribe());
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
-  <LayoutGrid cols="3" row-gap="10px">
-    <Cell span="4">
-      { #if error != "" }
-        <p
-          on:mouseover={ () => showMessage = true }
-          on:mouseleave={ () => showMessage = false }
-          on:focus={ () => showMessage = true }
-        >
-          {@html error}
-        </p>
-      { /if }
-    </Cell>
-    <Cell span="4">
-      <div class="centered-container">
-        <div class="item">
-          <Textfield label="username" type="text" bind:value={username} required />
+{ #if ! me.Username }
+  <form on:submit|preventDefault={handleSubmit}>
+    <LayoutGrid>
+      <Cell span="4">
+        { #if error != "" }
+          <p
+            on:mouseover={ () => showMessage = true }
+            on:mouseleave={ () => showMessage = false }
+            on:focus={ () => showMessage = true }
+          >
+            {@html error}
+          </p>
+        { /if }
+      </Cell>
+      <Cell span="4">
+        <div class="centered-container">
+          <div class="item">
+            <Textfield label="username" type="text" bind:value={FormUsername} required />
+          </div>
+          <div class="item">
+            <Textfield label="password" type="password" bind:value={FormPassword} required />
+          </div>
+          <div class="item">
+            <Button color="primary" variant="raised" type="submit">
+              <Label>login</Label>
+            </Button>
+          </div>
         </div>
-        <div class="item">
-          <Textfield label="password" type="password" bind:value={password} required />
-        </div>
-        <div class="item">
-          <Button color="primary" variant="raised" type="submit">
-            <Label>login</Label>
-          </Button>
-        </div>
-      </div>
-    </Cell>
-    <Cell span="4">
-      { #if showMessage }
-          <p>{@html message}</p>
-      { /if }
-    </Cell>
-  </LayoutGrid>
-</form>
+      </Cell>
+      <Cell span="4">
+        { #if showMessage }
+            <p>{@html message}</p>
+        { /if }
+      </Cell>
+    </LayoutGrid>
+  </form>
+{ :else }
+  <form>
+    <LayoutGrid>
+      <Cell span="12"><p>Hello, {me.FullName}</p></Cell>
+      <Cell span="6">
+        <Cell span="4"><Textfield input$readonly={true} bind:value={me.FirstName} label="First Name"></Textfield></Cell>
+        <Cell span="4"><Textfield input$readonly={true} bind:value={me.LastName} label="Last Name"></Textfield></Cell>
+        <Cell span="4"><Textfield input$readonly={true} bind:value={me.Username} label="Username"></Textfield></Cell>
+        <Cell span="4" style="display:flex;"><Label>Email Verified</Label><Checkbox disabled bind:checked={me.EmailVerified} /></Cell>
+      </Cell>
+      <Cell span="6">
+        <p>This should be a page with your information and actions:</p>
+        <Button variant="raised"><Label>Edit</Label></Button>
+        <Button on:click={logout} variant="outlined"><Label>Log out</Label></Button>
+      </Cell>
+    </LayoutGrid>
+  </form>
+{ /if }
 
 <style>
   form {
