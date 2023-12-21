@@ -5,7 +5,7 @@
   import Checkbox from '@smui/checkbox';
   import { onDestroy } from 'svelte';
 
-  import axios, { Axios, AxiosError } from 'axios';
+  import axios, { AxiosError } from 'axios';
   import type { ILoginTokens } from '../../types/login';
   import type { IMe } from '../../types/me';
 	import { LoginTokens } from '../../stores/loginTokens';
@@ -37,22 +37,21 @@
 
       Me.set(m);
     })
-    .catch(e => {
-      console.log(e)
-      if ( e instanceof axios.AxiosError ) {
-        message = e.response?.data?.message
-        switch(e.code){
-          case "ERR_NETWORK":
-            error = "Sorry, backend is currently down &#128556"
-          break;
-          case "ERR_BAD_REQUEST":
-            error = "Looks like your credentials are incorrect &#128517"
-          break;
-          default: {
-            error = "some other exception"
-          }
-        } 
-      }
+    .catch((e: AxiosError) => {
+      const data = e.response?.data as { ok: boolean, message: string }
+      message = data.message;
+
+      switch(e.code){
+        case "ERR_NETWORK":
+          error = "Sorry, backend is currently down &#128556"
+        break;
+        case "ERR_BAD_REQUEST":
+          error = "Looks like your credentials are incorrect &#128517"
+        break;
+        default: {
+          error = "some other exception"
+        }
+      } 
     })
   }
 
@@ -60,7 +59,7 @@
     Me.set({ Username: "", FirstName: "", LastName: "", FullName: "", EmailVerified: false });
     LoginTokens.set({ accessToken: "", refreshToken: "", expiresIn: 0});
 
-    // TODO call /logout
+    // TODO: call /logout
   }
 
   const unsubscribe = Me.subscribe(v => {
