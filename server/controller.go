@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 )
@@ -26,6 +27,12 @@ type loginResponse struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	ExpiresIn    int    `json:"expiresIn"`
+
+	Username string
+	FirstName string
+	LastName string
+	FullName string
+	EmailVerified bool
 }
 
 type controller struct {
@@ -39,7 +46,7 @@ func newController(keycloak *keycloak) *controller {
 }
 
 func (c *controller) login(w http.ResponseWriter, r *http.Request) {
-
+	ctx := context.Background()
 	rq := &loginRequest{}
 
 	decoder := json.NewDecoder(r.Body)
@@ -48,7 +55,7 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jwt, err := c.keycloak.gocloak.Login(context.Background(),
+	jwt, err := c.keycloak.gocloak.Login(ctx,
 		c.keycloak.clientId,
 		c.keycloak.clientSecret,
 		c.keycloak.realm,
@@ -60,6 +67,13 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	_, m, err := c.keycloak.gocloak.DecodeAccessToken(ctx, jwt.AccessToken, c.keycloak.realm)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, prepareErrorResponse(err, "Unable to decode your token"), http.StatusForbidden)
+		return
+	}
+
 	rs := &loginResponse{
 		Ok:           true,
 		Description:  "Success",
@@ -67,6 +81,12 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 		AccessToken:  jwt.AccessToken,
 		RefreshToken: jwt.RefreshToken,
 		ExpiresIn:    jwt.ExpiresIn,
+
+		Username: (*m)["preferred_username"].(string),
+		FirstName: (*m)["given_name"].(string),
+		LastName: (*m)["family_name"].(string),
+		FullName: (*m)["name"].(string),
+		EmailVerified: (*m)["email_verified"].(bool),
 	}
 
 	rsJs, _ := json.Marshal(rs)
