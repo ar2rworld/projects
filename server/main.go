@@ -9,6 +9,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+
+	"github.com/ar2rworld/projects-backend/keycloak"
+	"github.com/ar2rworld/projects-backend/controller"
 )
 
 var SERVER_PORT = os.Getenv("SERVER_PORT")
@@ -18,12 +21,12 @@ func main() {
 
 	r := chi.NewRouter()
 
-	kc, err := newKeycloak()
+	kc, err := keycloak.NewKeycloak()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	controller := newController(kc)
+	controller := controller.NewController(kc)
 
 	r.Use(middleware.Logger)
 	r.Use(cors.Handler(cors.Options{
@@ -40,7 +43,7 @@ func main() {
 		r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
 			// no auth
 			if w.Header().Get("Authorization") == "" {
- 				controller.login(w, r)
+ 				controller.Login(w, r)
 			}
 		})
 		

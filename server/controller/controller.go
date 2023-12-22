@@ -1,4 +1,4 @@
-package main
+package controller
 
 import (
 	"context"
@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+	
+	"github.com/ar2rworld/projects-backend/keycloak"
 )
 
 type doc struct {
@@ -14,12 +16,12 @@ type doc struct {
 	Date time.Time `json:"date"`
 }
 
-type loginRequest struct {
+type LoginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-type loginResponse struct {
+type LoginResponse struct {
 	Ok bool `json:"ok"`
 	Description string `json:"description"`
 	Message string `json:"message"`
@@ -35,19 +37,27 @@ type loginResponse struct {
 	EmailVerified bool
 }
 
-type controller struct {
-	keycloak *keycloak
+type Me struct {
+	Username string
+	FirstName string
+	LastName string
+	FullName string
+	EmailVerified bool
 }
 
-func newController(keycloak *keycloak) *controller {
-	return &controller{
-		keycloak: keycloak,
+type Controller struct {
+	Keycloak *keycloak.Keycloak
+}
+
+func NewController(keycloak *keycloak.Keycloak) *Controller {
+	return &Controller{
+		Keycloak: keycloak,
 	}
 }
 
-func (c *controller) login(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
-	rq := &loginRequest{}
+	rq := &LoginRequest{}
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(rq); err != nil {
@@ -55,10 +65,10 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jwt, err := c.keycloak.gocloak.Login(ctx,
-		c.keycloak.clientId,
-		c.keycloak.clientSecret,
-		c.keycloak.realm,
+	jwt, err := c.Keycloak.Gocloak.Login(ctx,
+		c.Keycloak.ClientId,
+		c.Keycloak.ClientSecret,
+		c.Keycloak.Realm,
 		rq.Username,
 		rq.Password)
 
@@ -67,14 +77,14 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, m, err := c.keycloak.gocloak.DecodeAccessToken(ctx, jwt.AccessToken, c.keycloak.realm)
+	_, m, err := c.Keycloak.Gocloak.DecodeAccessToken(ctx, jwt.AccessToken, c.Keycloak.Realm)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, prepareErrorResponse(err, "Unable to decode your token"), http.StatusForbidden)
 		return
 	}
 
-	rs := &loginResponse{
+	rs := &LoginResponse{
 		Ok:           true,
 		Description:  "Success",
 		Message:      "Success",
@@ -96,7 +106,7 @@ func (c *controller) login(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(rsJs)
 }
 
-func (c *controller) getDocs(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) getDocs(w http.ResponseWriter, r *http.Request) {
 
 	rs := []*doc{
 		{

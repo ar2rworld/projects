@@ -1,4 +1,4 @@
-module github.com/projects-backend
+module github.com/ar2rworld/projects-backend
 
 go 1.21.4
 
