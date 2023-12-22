@@ -1,14 +1,21 @@
 package keycloak
 
 import (
+	"context"
 	"fmt"
 	"os"
 
 	"github.com/Nerzal/gocloak/v13"
+	"github.com/golang-jwt/jwt/v4"
 )
 
+type GoCloaklike interface {
+	Login(ctx context.Context, clientId string, clientSecret string, realm string, username string, password string) (*gocloak.JWT, error)
+	DecodeAccessToken(ctx context.Context, accessToken string, realm string) (*jwt.Token, *jwt.MapClaims, error)
+}
+
 type Keycloak struct {
-	Gocloak      gocloak.GoCloak // keycloak client
+	Gocloak      GoCloaklike 		 // keycloak client
 	ClientId     string          // clientId specified in Keycloak
 	ClientSecret string          // client secret specified in Keycloak
 	Realm        string          // realm specified in Keycloak
@@ -30,7 +37,7 @@ func NewKeycloak() (*Keycloak, error) {
 	}
 
 	return &Keycloak{
-		Gocloak:      *gocloak.NewClient(kcHost),
+		Gocloak:      gocloak.NewClient(kcHost),
 		ClientId:     id,
 		ClientSecret: secret,
 		Realm:        realm,
