@@ -1,3 +1,1 @@
-<div>
-  This is /shop
-</div>
+<div>This is /shop</div>

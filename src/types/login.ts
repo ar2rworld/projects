@@ -1,5 +1,5 @@
 export interface ILoginTokens {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-};
+	accessToken: string;
+	refreshToken: string;
+	expiresIn: number;
+}

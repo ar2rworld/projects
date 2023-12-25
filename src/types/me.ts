@@ -1,7 +1,10 @@
 export interface IMe {
-  Username: 		 string;
-	FirstName: 		 string;
-	LastName: 		 string;
-	FullName: 		 string;
+	Ok: boolean;
+	Error: string;
+	Message: string;
+	Username: string;
+	FirstName: string;
+	LastName: string;
+	FullName: string;
 	EmailVerified: boolean;
 }
