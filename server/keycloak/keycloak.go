@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Nerzal/gocloak/v13"
-	"github.com/golang-jwt/jwt/v4"
+	gocloak "github.com/Nerzal/gocloak/v13"
+	jwt "github.com/golang-jwt/jwt/v4"
 )
+
+//go:generate moq -out gocloaklike_moq.go . GoCloaklike
 
 type GoCloaklike interface {
 	Login(ctx context.Context, clientId string, clientSecret string, realm string, username string, password string) (*gocloak.JWT, error)
 	DecodeAccessToken(ctx context.Context, accessToken string, realm string) (*jwt.Token, *jwt.MapClaims, error)
+	GetUserInfo(ctx context.Context, accessToken, realm string) (*gocloak.UserInfo, error)
 }
 
 type Keycloak struct {
