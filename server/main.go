@@ -50,6 +50,10 @@ func main() {
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("get /"))
 		})
+
+		r.Get("/me", func (w http.ResponseWriter, r *http.Request) {
+			controller.GetMe(w, r)
+		})
 	})
 
 	log.Printf("Server started on :%s", SERVER_PORT)
