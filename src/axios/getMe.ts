@@ -1,50 +1,23 @@
-import type { AxiosError } from 'axios';
-import { LoginTokens } from '../stores/loginTokens';
+import { AxiosError, HttpStatusCode } from 'axios';
 import type { ILoginTokens } from '../types/login';
 import type { IMe } from '../types/me';
 import { api } from './axios';
 
-export const getMe = () => {
-	let lt: ILoginTokens = { accessToken: '', refreshToken: '', expiresIn: 0 };
-	LoginTokens.update((v) => {
-		lt = v;
-		return v;
-	});
-
+export const getMe = async (lt: ILoginTokens): Promise<IMe> => {
 	const headers: HeadersInit = {
-		Authorization: `Bearer ${lt.accessToken}`
+		Authorization: `${lt.accessToken}`
 	};
 
-	let out: IMe = {
-		Ok: false,
-		Error: '',
-		Message: '',
-		Username: '',
-		FirstName: '',
-		LastName: '',
-		FullName: '',
-		EmailVerified: false
-	};
+	const d = await api.get('/me', { headers: headers })
 
-	api
-		.get('/me', { headers: headers })
-		.then((d) => {
-			const me = d.data as IMe;
+	const me = d.data as IMe;
+	
+	if (d.status != HttpStatusCode.Ok) {
+		const err = d.data as AxiosError;
+		me.Error = err.name
+		me.Message = err.message
+		return Promise.reject(me);
+	}
 
-			out = {
-				Ok: true,
-				Error: '',
-				Message: '',
-				Username: me.Username,
-				FirstName: me.FirstName,
-				LastName: me.LastName,
-				FullName: me.FullName,
-				EmailVerified: me.EmailVerified
-			};
-		})
-		.catch((e: AxiosError) => {
-			out = e.response?.data as IMe;
-		});
-
-	return out;
+	return Promise.resolve(me);
 };
