@@ -36,14 +36,14 @@
 	hoveredProject.subscribe((id) => (hoveredProjectID = id));
 </script>
 
-<div class="project">
-	<h3>{name}</h3>
-	<div class="grid">
+<div class="h-max p-2 rounded-lg border-2 border-fg-2">
+	<h2>{name}</h2>
+	<div class="grid mx-1 my-0">
 		<div>
 			<ul>
 				<li>
 					{#if url}
-						<a href={url}>URL</a>
+						<a class='text-link dark:text-d-link' href={url}>URL</a>
 					{:else}
 						<p>Didn't published yet</p>
 					{/if}
@@ -54,11 +54,11 @@
 				<li>Techonologies:</li>
 			</ul>
 		</div>
-		<div class="column">
+		<div class="w-full grid grid-flow-col m-4">
 			{#if technologies != undefined}
 				{#each technologies as technology}
-					<div class="technologyImg">
-						<img src={technology.img} alt={technology.alt} />
+					<div class="text-center m-auto">
+						<img class="max-h-12" src={technology.img} alt={technology.alt} />
 					</div>
 				{/each}
 			{:else}
@@ -68,49 +68,15 @@
 			{/if}
 		</div>
 	</div>
-	<a on:mouseenter={addDots} on:mouseleave={removeDots} class="projectView" href="/projects/{id}">
+	<a on:mouseenter={addDots} on:mouseleave={removeDots}
+		class="block text-center m-auto bg-bg-2 dark:bg-d-bg-2 border-0 rounded-lg p-1"
+		href="/projects/{id}">
 		{hoveredProjectID === id ? more : hoveredProjectID === '' ? more : more + '?'}
 	</a>
 </div>
 
 <style>
-	.project {
-		border-radius: var(--border-radius);
-		border: 1px solid var(--fg-2);
-		height: max-content;
-	}
 	p {
 		margin: 0px;
-	}
-	div {
-		padding: 1%;
-	}
-	.projectView {
-		display: block;
-		text-align: center;
-		margin: auto;
-		background-color: var(--bg-2);
-		border: 0;
-		border-radius: 0.317rem;
-		padding: 1%;
-		color: var(--fg-1);
-	}
-	.grid {
-		display: grid;
-		/* gap: 2%; */
-		margin: 1% 0px;
-	}
-	img {
-		max-height: 50px;
-	}
-	.technologyImg {
-		text-align: center;
-		margin: auto;
-	}
-	.column {
-		width: 100%;
-		display: grid;
-		grid-auto-flow: column;
-		margin: 1%;
 	}
 </style>
