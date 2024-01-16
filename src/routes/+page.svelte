@@ -7,7 +7,7 @@
 	} from '../stores/RevealedStore';
 </script>
 
-<div>
+<div class="max-w-xl mx-auto">
 	<h1>Hello!</h1>
 	<h2>And welcome to the Artur Linnik's projects website</h2>
 	<h2>My name is Artur Linnik</h2>
@@ -23,8 +23,3 @@
 	</h3>
 </div>
 
-<style>
-	div {
-		text-align: center;
-	}
-</style>

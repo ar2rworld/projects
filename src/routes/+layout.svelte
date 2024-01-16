@@ -35,11 +35,11 @@
 		currentTheme = localStorage.getItem(STORAGE_KEY) ?? preferredTheme;
 
 		if (currentTheme === THEMES.DARK) {
-			document.body.classList.remove(THEMES.LIGHT);
-			document.body.classList.add(THEMES.DARK);
+			document.documentElement.classList.remove(THEMES.LIGHT);
+			document.documentElement.classList.add(THEMES.DARK);
 		} else {
-			document.body.classList.remove(THEMES.DARK);
-			document.body.classList.add(THEMES.LIGHT);
+			document.documentElement.classList.remove(THEMES.DARK);
+			document.documentElement.classList.add(THEMES.LIGHT);
 		}
 	};
 
@@ -91,15 +91,7 @@
 	});
 </script>
 
-<svelte:head>
-	{#if currentTheme == THEMES.DARK}
-		<link rel="stylesheet" href="/smui-dark.css" />
-	{:else}
-		<link rel="stylesheet" href="/smui.css" />
-	{/if}
-</svelte:head>
-
-<nav>
+<nav class="flex relative gap-4 p-4 rounded-lg bg-bg-2 dark:bg-d-bg-2">
 	<a href="/" aria-current={$page.url.pathname === '/'}> home </a>
 
 	<a href="/projects" aria-current={$page.url.pathname === '/projects'}> projects </a>
@@ -111,7 +103,7 @@
 	</a>
 	<HintFeedback />
 	<input
-		class="toggleTheme"
+		class="ml-auto"
 		type="checkbox"
 		checked={currentTheme !== THEMES.DARK}
 		on:click={toggleTheme}
@@ -122,8 +114,7 @@
 <slot />
 
 <style>
-	.toggleTheme {
-		margin-left: auto;
-		text-align: end;
+	nav a[aria-current='true'] {
+		border-bottom: 2px solid;
 	}
 </style>

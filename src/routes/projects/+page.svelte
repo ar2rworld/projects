@@ -3,9 +3,9 @@
 	import { projects } from '../../stores/data';
 </script>
 
-<h1>Here should be some projects:</h1>
+<h1 class="p-1">Here should be some projects:</h1>
 
-<div class="projectsContainer">
+<div class="grid gap-5 projectsContainer">
 	{#each projects as project}
 		<ProjectCard
 			id={project.id}
@@ -19,9 +19,6 @@
 
 <style>
 	.projectsContainer {
-		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 1%;
-		align-content: center;
 	}
 </style>
