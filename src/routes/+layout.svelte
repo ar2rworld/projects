@@ -91,6 +91,14 @@
 	});
 </script>
 
+<svelte:head>
+	{#if currentTheme == THEMES.DARK}
+		<link rel="stylesheet" href="/smui-dark.css" />
+	{:else}
+		<link rel="stylesheet" href="/smui.css" />
+	{/if}
+</svelte:head>
+
 <nav class="flex relative gap-4 p-4 rounded-lg bg-bg-2 dark:bg-d-bg-2">
 	<a href="/" aria-current={$page.url.pathname === '/'}> home </a>
 
