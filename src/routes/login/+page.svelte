@@ -103,69 +103,42 @@
 	onDestroy(() => { unsubscribe(); unsubscribe2() });
 </script>
 
-{#if !me.Username}
-	<form on:submit|preventDefault={handleSubmit}>
-		<LayoutGrid>
-			<Cell span={4}>
-				{#if error !== ''}
-					<p
-						on:mouseover={() => (showMessage = true)}
-						on:mouseleave={() => (showMessage = false)}
-						on:focus={() => (showMessage = true)}
-					>
-						{@html error}
-					</p>
-				{/if}
-			</Cell>
-			<Cell span={4}>
-				<div class="centered-container">
-					<div class="item">
-						<Textfield label="username" type="text" bind:value={FormUsername} required />
-					</div>
-					<div class="item">
-						<Textfield label="password" type="password" bind:value={FormPassword} required />
-					</div>
-					<div class="item">
-						<Button color="primary" variant="raised" type="submit">
-							<Label>login</Label>
-						</Button>
-					</div>
-					<div><a href="/register">Don't have account?</a></div>
+<form on:submit|preventDefault={handleSubmit}>
+	<LayoutGrid>
+		<Cell span={4}>
+			{#if error !== ''}
+				<p
+					on:mouseover={() => (showMessage = true)}
+					on:mouseleave={() => (showMessage = false)}
+					on:focus={() => (showMessage = true)}
+				>
+					{@html error}
+				</p>
+			{/if}
+		</Cell>
+		<Cell span={4}>
+			<div class="flex flex-col items-center justify-center h-full">
+				<div>
+					<Textfield label="username" type="text" bind:value={FormUsername} required />
 				</div>
-			</Cell>
-			<Cell span={4}>
-				{#if showMessage}
-					<p>{DOMPurify.sanitize(message)}</p>
-				{/if}
-			</Cell>
-		</LayoutGrid>
-	</form>
-{:else}
-	<form>
-		<LayoutGrid>
-			<Cell span={12}><p>Hello, {me.FullName}</p></Cell>
-			<Cell span={6}>
-				<Cell span={4}
-					><Textfield input$readonly={true} bind:value={me.FirstName} label="First Name" /></Cell
-				>
-				<Cell span={4}
-					><Textfield input$readonly={true} bind:value={me.LastName} label="Last Name" /></Cell
-				>
-				<Cell span={4}
-					><Textfield input$readonly={true} bind:value={me.Username} label="Username" /></Cell
-				>
-				<Cell span={4} style="display:flex;"
-					><Label>Email Verified</Label><Checkbox disabled bind:checked={me.EmailVerified} /></Cell
-				>
-			</Cell>
-			<Cell span={6}>
-				<p>This should be a page with your information and actions:</p>
-				<Button variant="raised"><Label>Edit</Label></Button>
-				<Button on:click={logout} variant="outlined"><Label>Log out</Label></Button>
-			</Cell>
-		</LayoutGrid>
-	</form>
-{/if}
+				<div>
+					<Textfield label="password" type="password" bind:value={FormPassword} required />
+				</div>
+				<div>
+					<Button color="primary" variant="raised" type="submit">
+						<Label>login</Label>
+					</Button>
+				</div>
+				<div><a href="/register">Don't have account?</a></div>
+			</div>
+		</Cell>
+		<Cell span={4}>
+			{#if showMessage}
+				<p>{DOMPurify.sanitize(message)}</p>
+			{/if}
+		</Cell>
+	</LayoutGrid>
+</form>
 
 <style>
 	form {
@@ -173,16 +146,5 @@
 		background-color: var(--bg-2);
 		color: var(--fg-1);
 		margin: 1% 5%;
-	}
-
-	.centered-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-	}
-	.item {
-		margin-bottom: 0.5%;
 	}
 </style>

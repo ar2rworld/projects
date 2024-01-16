@@ -98,9 +98,11 @@
 	<a href="/about" aria-current={$page.url.pathname === '/about'}> about </a>
 	<a href="/blog" aria-current={$page.url.pathname === '/blog'}> blog </a>
 	<a href="/shop" aria-current={$page.url.pathname === '/shop'}> shop </a>
-	<a href="/login" aria-current={$page.url.pathname === '/login'}>
-		{!username ? 'login' : 'me'}
-	</a>
+	{ #if ! username }
+		<a href="/login" aria-current={$page.url.pathname === '/login'}>login</a>
+	{ :else }
+		<a href="/me" aria-current={$page.url.pathname === '/me'}>me</a>
+	{ /if}
 	<HintFeedback />
 	<input
 		class="ml-auto"
