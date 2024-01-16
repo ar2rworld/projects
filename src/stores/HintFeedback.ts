@@ -3,7 +3,8 @@ import { writable, type Unsubscriber, type Writable, get } from 'svelte/store';
 
 export const hoveredHint = writable(false);
 
-const INIT_VISIBILITY = -62;
+const INIT_VISIBILITY = -50;
+const MIN_HINT_VISIBILITY = -60;
 
 export const hintVisibility = writable(INIT_VISIBILITY);
 
@@ -13,10 +14,10 @@ export const resetVisibility = () => {
 
 export const hintShown = () => {
 	hintVisibility.update((v) => {
-		if (v - 5 >= -72) {
+		if (v - 5 >= MIN_HINT_VISIBILITY) {
 			return v - 5;
 		}
-		return -72;
+		return MIN_HINT_VISIBILITY;
 	});
 };
 

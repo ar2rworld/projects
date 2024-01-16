@@ -55,13 +55,15 @@
 	<div in:fly={{ duration: 1000, x: -300, opacity: 0.1 }} out:fly={{ x: -300 }}>
 		<p on:mouseenter={handleHide}><i>Sometimes it is helpful to hover over "..."</i></p>
 		<svg width="180" height="180">
-			<circle class="outer" in:spin={{ duration: PopinDuration }} cx="60" cy="70" r={radius} />
-			<circle class="inner" cx="60" cy="70" r="50" />
+			<circle class="fill-bg-3 dark:d-bg-3 opacity-50" in:spin={{ duration: PopinDuration }} cx="60" cy="70" r={radius} />
+			<circle class="fill-bg-1 dark:d-bg-1 opacity-60" cx="60" cy="70" r="50" />
 		</svg>
 	</div>
 {:else}
-	<div class="hint" style="left:{$hintVisibility}px;">
-		<button on:mouseenter={handleShow}>hint</button>
+	<div class="text-center rotate-90" style="left:{$hintVisibility}px;">
+		<button class='text-fg-2 dark:text-d-fg-2 bg-bg-3 dark:bg-d-bg-3'
+			on:mouseenter={handleShow}
+		>hint</button>
 	</div>
 {/if}
 
@@ -81,24 +83,5 @@
 	}
 	p {
 		margin: 0px;
-	}
-	.inner {
-		fill: var(--bg-1);
-		opacity: 0.6;
-	}
-	.outer {
-		fill: var(--bg-3);
-		opacity: 0.5;
-	}
-	.hint {
-		rotate: 90deg;
-		text-align: center;
-	}
-	button {
-		color: var(--fg-2);
-		width: 50px;
-		height: 15px;
-		background-color: var(--bg-3);
-		border: none;
 	}
 </style>
