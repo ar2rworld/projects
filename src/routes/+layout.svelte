@@ -35,9 +35,19 @@
 		currentTheme = localStorage.getItem(STORAGE_KEY) ?? preferredTheme;
 
 		if (currentTheme === THEMES.DARK) {
+			// for smui
+			document.body.classList.remove(THEMES.LIGHT);
+			document.body.classList.add(THEMES.DARK);
+
+			// for tailwindcss
 			document.documentElement.classList.remove(THEMES.LIGHT);
 			document.documentElement.classList.add(THEMES.DARK);
 		} else {
+			// for smui
+			document.body.classList.remove(THEMES.DARK);
+			document.body.classList.add(THEMES.LIGHT);
+			
+			// for tailwindcss
 			document.documentElement.classList.remove(THEMES.DARK);
 			document.documentElement.classList.add(THEMES.LIGHT);
 		}
