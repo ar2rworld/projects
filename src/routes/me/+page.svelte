@@ -4,9 +4,35 @@
 	import Textfield from '@smui/textfield';
 	import Checkbox from '@smui/checkbox';
 	import { onDestroy, onMount } from 'svelte';
+	import type { IMe } from '../../types/me';
+	import { Me } from '../../stores/me';
+	import { LoginTokens } from '../../stores/loginTokens';
 
   let me: IMe;
 
+	const logout = () => {
+		Me.set({
+			Username: '',
+			FirstName: '',
+			LastName: '',
+			FullName: '',
+			EmailVerified: false,
+			Error: '',
+			Message: '',
+			Ok: true
+		});
+		LoginTokens.set({ accessToken: '', refreshToken: '', expiresIn: 0 });
+
+  	// TODO: call /logout
+
+    window.location.href = '/login';
+	};
+
+  const unsubscribe = Me.subscribe((v) => {
+    me = v;
+  });
+  
+  onDestroy(() => unsubscribe());
 </script>
 
 <form>

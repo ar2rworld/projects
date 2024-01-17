@@ -13,6 +13,8 @@
 	import { Me } from '../../stores/me';
 	import { getMe } from '../../axios/getMe';
 
+	import { goto } from '$app/navigation';
+
 	let me: IMe;
 	let lt: ILoginTokens;
 
@@ -40,6 +42,7 @@
 				const m = d.data as IMe;
 
 				Me.set(m);
+				goto('/me');
 			})
 			.catch((e: AxiosError) => {
 				const data = e.response?.data as { ok: boolean; message: string };
@@ -59,22 +62,6 @@
 			});
 	};
 
-	const logout = () => {
-		Me.set({
-			Username: '',
-			FirstName: '',
-			LastName: '',
-			FullName: '',
-			EmailVerified: false,
-			Error: '',
-			Message: '',
-			Ok: true
-		});
-		LoginTokens.set({ accessToken: '', refreshToken: '', expiresIn: 0 });
-
-		// TODO: call /logout
-	};
-
 	const unsubscribe = Me.subscribe((v) => {
 		me = v;
 	});
@@ -91,6 +78,7 @@
 					.then(v => {
 						console.log(v);
 						Me.set(v);
+						goto('/me');
 					})
 					.catch((e) => {
 						error = e?.message
@@ -118,10 +106,10 @@
 		</Cell>
 		<Cell span={4}>
 			<div class="flex flex-col items-center justify-center h-full">
-				<div>
+				<div class='mb-2'>
 					<Textfield label="username" type="text" bind:value={FormUsername} required />
 				</div>
-				<div>
+				<div class='mb-2'>
 					<Textfield label="password" type="password" bind:value={FormPassword} required />
 				</div>
 				<div>
