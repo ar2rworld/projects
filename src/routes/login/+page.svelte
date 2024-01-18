@@ -6,7 +6,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import DOMPurify from 'dompurify';
 
-	import axios, { AxiosError } from 'axios';
+	import type { AxiosError } from 'axios';
 	import type { ILoginTokens } from '../../types/login';
 	import type { IMe } from '../../types/me';
 	import { LoginTokens } from '../../stores/loginTokens';
@@ -14,6 +14,7 @@
 	import { getMe } from '../../axios/getMe';
 
 	import { goto } from '$app/navigation';
+	import { api } from '../../axios/axios';
 
 	let me: IMe;
 	let lt: ILoginTokens;
@@ -33,8 +34,8 @@
 
 		const data = { username: FormUsername, password: FormPassword };
 
-		axios
-			.post(baseUrl + '/login', data)
+		api
+			.post('/login', data)
 			.then((d) => {
 				const loginTokens = d.data as ILoginTokens;
 				LoginTokens.set(loginTokens);
@@ -90,49 +91,33 @@
 
 	onDestroy(() => { unsubscribe(); unsubscribe2() });
 </script>
+	
+<LayoutGrid>
+	<Cell span={4}>
+		{#if error !== ''}
+			<p
+				on:mouseover={() => (showMessage = true)}
+				on:mouseleave={() => (showMessage = false)}
+				on:focus={() => (showMessage = true)}
+			>
+				{@html error}
+			</p>
+		{/if}
+	</Cell>
 
-<form on:submit|preventDefault={handleSubmit}>
-	<LayoutGrid>
-		<Cell span={4}>
-			{#if error !== ''}
-				<p
-					on:mouseover={() => (showMessage = true)}
-					on:mouseleave={() => (showMessage = false)}
-					on:focus={() => (showMessage = true)}
-				>
-					{@html error}
-				</p>
-			{/if}
-		</Cell>
-		<Cell span={4}>
-			<div class="flex flex-col items-center justify-center h-full">
-				<div class='mb-2'>
+	<Cell span={4}>
+		<form class='p-0.5 flex flex-col items-center justify-center h-full' on:submit|preventDefault={handleSubmit}>
 					<Textfield label="username" type="text" bind:value={FormUsername} required />
-				</div>
-				<div class='mb-2'>
-					<Textfield label="password" type="password" bind:value={FormPassword} required />
-				</div>
-				<div>
+					<Textfield class='mb-2' label="password" type="password" bind:value={FormPassword} required />
 					<Button color="primary" variant="raised" type="submit">
 						<Label>login</Label>
 					</Button>
-				</div>
-				<div><a href="/register">Don't have account?</a></div>
-			</div>
-		</Cell>
-		<Cell span={4}>
-			{#if showMessage}
-				<p>{DOMPurify.sanitize(message)}</p>
-			{/if}
-		</Cell>
-	</LayoutGrid>
-</form>
+				<a href="/register">Don't have account?</a>
+	</Cell>
 
-<style>
-	form {
-		padding: 0.5%;
-		background-color: var(--bg-2);
-		color: var(--fg-1);
-		margin: 1% 5%;
-	}
-</style>
+	<Cell span={4}>
+		{#if showMessage}
+			<p>{DOMPurify.sanitize(message)}</p>
+		{/if}
+	</Cell>
+</LayoutGrid>
