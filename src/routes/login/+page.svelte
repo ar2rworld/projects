@@ -2,7 +2,6 @@
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import Button, { Label } from '@smui/button';
 	import Textfield from '@smui/textfield';
-	import Checkbox from '@smui/checkbox';
 	import { onDestroy, onMount } from 'svelte';
 	import DOMPurify from 'dompurify';
 
@@ -15,6 +14,9 @@
 
 	import { goto } from '$app/navigation';
 	import { api } from '../../axios/axios';
+
+	export let data: { new: boolean };
+	let newUser = data.new;
 
 	let me: IMe;
 	let lt: ILoginTokens;
@@ -103,6 +105,9 @@
 				{@html error}
 			</p>
 		{/if}
+		{ #if newUser }
+			<p>Thank you for registering!</p>
+		{ /if }
 	</Cell>
 
 	<Cell span={4}>
