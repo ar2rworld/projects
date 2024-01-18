@@ -20,14 +20,26 @@ var _ GoCloaklike = &GoCloaklikeMock{}
 //
 //		// make and configure a mocked GoCloaklike
 //		mockedGoCloaklike := &GoCloaklikeMock{
+//			CreateUserFunc: func(ctx context.Context, token string, realm string, user gocloak.User) (string, error) {
+//				panic("mock out the CreateUser method")
+//			},
 //			DecodeAccessTokenFunc: func(ctx context.Context, accessToken string, realm string) (*jwt.Token, *jwt.MapClaims, error) {
 //				panic("mock out the DecodeAccessToken method")
 //			},
 //			GetUserInfoFunc: func(ctx context.Context, accessToken string, realm string) (*gocloak.UserInfo, error) {
 //				panic("mock out the GetUserInfo method")
 //			},
+//			GetUsersFunc: func(ctx context.Context, token string, realm string, params gocloak.GetUsersParams) ([]*gocloak.User, error) {
+//				panic("mock out the GetUsers method")
+//			},
 //			LoginFunc: func(ctx context.Context, clientId string, clientSecret string, realm string, username string, password string) (*gocloak.JWT, error) {
 //				panic("mock out the Login method")
+//			},
+//			LoginAdminFunc: func(ctx context.Context, username string, password string, realm string) (*gocloak.JWT, error) {
+//				panic("mock out the LoginAdmin method")
+//			},
+//			SetPasswordFunc: func(ctx context.Context, token string, userID string, realm string, password string, temporary bool) error {
+//				panic("mock out the SetPassword method")
 //			},
 //		}
 //
@@ -36,17 +48,40 @@ var _ GoCloaklike = &GoCloaklikeMock{}
 //
 //	}
 type GoCloaklikeMock struct {
+	// CreateUserFunc mocks the CreateUser method.
+	CreateUserFunc func(ctx context.Context, token string, realm string, user gocloak.User) (string, error)
+
 	// DecodeAccessTokenFunc mocks the DecodeAccessToken method.
 	DecodeAccessTokenFunc func(ctx context.Context, accessToken string, realm string) (*jwt.Token, *jwt.MapClaims, error)
 
 	// GetUserInfoFunc mocks the GetUserInfo method.
 	GetUserInfoFunc func(ctx context.Context, accessToken string, realm string) (*gocloak.UserInfo, error)
 
+	// GetUsersFunc mocks the GetUsers method.
+	GetUsersFunc func(ctx context.Context, token string, realm string, params gocloak.GetUsersParams) ([]*gocloak.User, error)
+
 	// LoginFunc mocks the Login method.
 	LoginFunc func(ctx context.Context, clientId string, clientSecret string, realm string, username string, password string) (*gocloak.JWT, error)
 
+	// LoginAdminFunc mocks the LoginAdmin method.
+	LoginAdminFunc func(ctx context.Context, username string, password string, realm string) (*gocloak.JWT, error)
+
+	// SetPasswordFunc mocks the SetPassword method.
+	SetPasswordFunc func(ctx context.Context, token string, userID string, realm string, password string, temporary bool) error
+
 	// calls tracks calls to the methods.
 	calls struct {
+		// CreateUser holds details about calls to the CreateUser method.
+		CreateUser []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// Token is the token argument value.
+			Token string
+			// Realm is the realm argument value.
+			Realm string
+			// User is the user argument value.
+			User gocloak.User
+		}
 		// DecodeAccessToken holds details about calls to the DecodeAccessToken method.
 		DecodeAccessToken []struct {
 			// Ctx is the ctx argument value.
@@ -65,6 +100,17 @@ type GoCloaklikeMock struct {
 			// Realm is the realm argument value.
 			Realm string
 		}
+		// GetUsers holds details about calls to the GetUsers method.
+		GetUsers []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// Token is the token argument value.
+			Token string
+			// Realm is the realm argument value.
+			Realm string
+			// Params is the params argument value.
+			Params gocloak.GetUsersParams
+		}
 		// Login holds details about calls to the Login method.
 		Login []struct {
 			// Ctx is the ctx argument value.
@@ -80,10 +126,84 @@ type GoCloaklikeMock struct {
 			// Password is the password argument value.
 			Password string
 		}
+		// LoginAdmin holds details about calls to the LoginAdmin method.
+		LoginAdmin []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// Username is the username argument value.
+			Username string
+			// Password is the password argument value.
+			Password string
+			// Realm is the realm argument value.
+			Realm string
+		}
+		// SetPassword holds details about calls to the SetPassword method.
+		SetPassword []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// Token is the token argument value.
+			Token string
+			// UserID is the userID argument value.
+			UserID string
+			// Realm is the realm argument value.
+			Realm string
+			// Password is the password argument value.
+			Password string
+			// Temporary is the temporary argument value.
+			Temporary bool
+		}
 	}
+	lockCreateUser        sync.RWMutex
 	lockDecodeAccessToken sync.RWMutex
 	lockGetUserInfo       sync.RWMutex
+	lockGetUsers          sync.RWMutex
 	lockLogin             sync.RWMutex
+	lockLoginAdmin        sync.RWMutex
+	lockSetPassword       sync.RWMutex
+}
+
+// CreateUser calls CreateUserFunc.
+func (mock *GoCloaklikeMock) CreateUser(ctx context.Context, token string, realm string, user gocloak.User) (string, error) {
+	if mock.CreateUserFunc == nil {
+		panic("GoCloaklikeMock.CreateUserFunc: method is nil but GoCloaklike.CreateUser was just called")
+	}
+	callInfo := struct {
+		Ctx   context.Context
+		Token string
+		Realm string
+		User  gocloak.User
+	}{
+		Ctx:   ctx,
+		Token: token,
+		Realm: realm,
+		User:  user,
+	}
+	mock.lockCreateUser.Lock()
+	mock.calls.CreateUser = append(mock.calls.CreateUser, callInfo)
+	mock.lockCreateUser.Unlock()
+	return mock.CreateUserFunc(ctx, token, realm, user)
+}
+
+// CreateUserCalls gets all the calls that were made to CreateUser.
+// Check the length with:
+//
+//	len(mockedGoCloaklike.CreateUserCalls())
+func (mock *GoCloaklikeMock) CreateUserCalls() []struct {
+	Ctx   context.Context
+	Token string
+	Realm string
+	User  gocloak.User
+} {
+	var calls []struct {
+		Ctx   context.Context
+		Token string
+		Realm string
+		User  gocloak.User
+	}
+	mock.lockCreateUser.RLock()
+	calls = mock.calls.CreateUser
+	mock.lockCreateUser.RUnlock()
+	return calls
 }
 
 // DecodeAccessToken calls DecodeAccessTokenFunc.
@@ -166,6 +286,50 @@ func (mock *GoCloaklikeMock) GetUserInfoCalls() []struct {
 	return calls
 }
 
+// GetUsers calls GetUsersFunc.
+func (mock *GoCloaklikeMock) GetUsers(ctx context.Context, token string, realm string, params gocloak.GetUsersParams) ([]*gocloak.User, error) {
+	if mock.GetUsersFunc == nil {
+		panic("GoCloaklikeMock.GetUsersFunc: method is nil but GoCloaklike.GetUsers was just called")
+	}
+	callInfo := struct {
+		Ctx    context.Context
+		Token  string
+		Realm  string
+		Params gocloak.GetUsersParams
+	}{
+		Ctx:    ctx,
+		Token:  token,
+		Realm:  realm,
+		Params: params,
+	}
+	mock.lockGetUsers.Lock()
+	mock.calls.GetUsers = append(mock.calls.GetUsers, callInfo)
+	mock.lockGetUsers.Unlock()
+	return mock.GetUsersFunc(ctx, token, realm, params)
+}
+
+// GetUsersCalls gets all the calls that were made to GetUsers.
+// Check the length with:
+//
+//	len(mockedGoCloaklike.GetUsersCalls())
+func (mock *GoCloaklikeMock) GetUsersCalls() []struct {
+	Ctx    context.Context
+	Token  string
+	Realm  string
+	Params gocloak.GetUsersParams
+} {
+	var calls []struct {
+		Ctx    context.Context
+		Token  string
+		Realm  string
+		Params gocloak.GetUsersParams
+	}
+	mock.lockGetUsers.RLock()
+	calls = mock.calls.GetUsers
+	mock.lockGetUsers.RUnlock()
+	return calls
+}
+
 // Login calls LoginFunc.
 func (mock *GoCloaklikeMock) Login(ctx context.Context, clientId string, clientSecret string, realm string, username string, password string) (*gocloak.JWT, error) {
 	if mock.LoginFunc == nil {
@@ -215,5 +379,101 @@ func (mock *GoCloaklikeMock) LoginCalls() []struct {
 	mock.lockLogin.RLock()
 	calls = mock.calls.Login
 	mock.lockLogin.RUnlock()
+	return calls
+}
+
+// LoginAdmin calls LoginAdminFunc.
+func (mock *GoCloaklikeMock) LoginAdmin(ctx context.Context, username string, password string, realm string) (*gocloak.JWT, error) {
+	if mock.LoginAdminFunc == nil {
+		panic("GoCloaklikeMock.LoginAdminFunc: method is nil but GoCloaklike.LoginAdmin was just called")
+	}
+	callInfo := struct {
+		Ctx      context.Context
+		Username string
+		Password string
+		Realm    string
+	}{
+		Ctx:      ctx,
+		Username: username,
+		Password: password,
+		Realm:    realm,
+	}
+	mock.lockLoginAdmin.Lock()
+	mock.calls.LoginAdmin = append(mock.calls.LoginAdmin, callInfo)
+	mock.lockLoginAdmin.Unlock()
+	return mock.LoginAdminFunc(ctx, username, password, realm)
+}
+
+// LoginAdminCalls gets all the calls that were made to LoginAdmin.
+// Check the length with:
+//
+//	len(mockedGoCloaklike.LoginAdminCalls())
+func (mock *GoCloaklikeMock) LoginAdminCalls() []struct {
+	Ctx      context.Context
+	Username string
+	Password string
+	Realm    string
+} {
+	var calls []struct {
+		Ctx      context.Context
+		Username string
+		Password string
+		Realm    string
+	}
+	mock.lockLoginAdmin.RLock()
+	calls = mock.calls.LoginAdmin
+	mock.lockLoginAdmin.RUnlock()
+	return calls
+}
+
+// SetPassword calls SetPasswordFunc.
+func (mock *GoCloaklikeMock) SetPassword(ctx context.Context, token string, userID string, realm string, password string, temporary bool) error {
+	if mock.SetPasswordFunc == nil {
+		panic("GoCloaklikeMock.SetPasswordFunc: method is nil but GoCloaklike.SetPassword was just called")
+	}
+	callInfo := struct {
+		Ctx       context.Context
+		Token     string
+		UserID    string
+		Realm     string
+		Password  string
+		Temporary bool
+	}{
+		Ctx:       ctx,
+		Token:     token,
+		UserID:    userID,
+		Realm:     realm,
+		Password:  password,
+		Temporary: temporary,
+	}
+	mock.lockSetPassword.Lock()
+	mock.calls.SetPassword = append(mock.calls.SetPassword, callInfo)
+	mock.lockSetPassword.Unlock()
+	return mock.SetPasswordFunc(ctx, token, userID, realm, password, temporary)
+}
+
+// SetPasswordCalls gets all the calls that were made to SetPassword.
+// Check the length with:
+//
+//	len(mockedGoCloaklike.SetPasswordCalls())
+func (mock *GoCloaklikeMock) SetPasswordCalls() []struct {
+	Ctx       context.Context
+	Token     string
+	UserID    string
+	Realm     string
+	Password  string
+	Temporary bool
+} {
+	var calls []struct {
+		Ctx       context.Context
+		Token     string
+		UserID    string
+		Realm     string
+		Password  string
+		Temporary bool
+	}
+	mock.lockSetPassword.RLock()
+	calls = mock.calls.SetPassword
+	mock.lockSetPassword.RUnlock()
 	return calls
 }
