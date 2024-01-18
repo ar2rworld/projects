@@ -45,10 +45,19 @@ func (c *Controller) Login(w http.ResponseWriter, r *http.Request) {
 		ExpiresIn:    jwt.ExpiresIn,
 
 		Username: (*m)["preferred_username"].(string),
-		FirstName: (*m)["given_name"].(string),
-		LastName: (*m)["family_name"].(string),
-		FullName: (*m)["name"].(string),
-		EmailVerified: (*m)["email_verified"].(bool),
+	}
+
+	if (*m)["given_name"] != nil {
+		rs.FirstName = (*m)["given_name"].(string)
+	}
+	if (*m)["family_name"] != nil {
+		rs.LastName = (*m)["family_name"].(string)
+	}
+	if (*m)["name"] != nil {
+		rs.FullName = (*m)["name"].(string)
+	}
+	if (*m)["email_verified"] != nil {
+		rs.EmailVerified = (*m)["email_verified"].(bool)
 	}
 
 	rsJs, _ := json.Marshal(rs)

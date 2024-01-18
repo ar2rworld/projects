@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
-	"log"
 	"net/http"
 	"time"
 	
@@ -35,6 +33,17 @@ type LoginResponse struct {
 	LastName string
 	FullName string
 	EmailVerified bool
+}
+
+type RegisterRequest struct {
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	FavoriteAnimal string `json:"favanimal"`
+}
+type RegisetResponse struct {
+	Ok          bool   `json:"ok"`
+	Description string `json:"description"`
+	Message     string `json:"message"`
 }
 
 type Me struct {

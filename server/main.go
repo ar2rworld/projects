@@ -46,6 +46,13 @@ func main() {
  				controller.Login(w, r)
 			}
 		})
+
+		r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
+			// no auth
+			if w.Header().Get("Authorization") == "" {
+ 				controller.Register(w, r)
+			}
+		})
 		
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("get /"))
