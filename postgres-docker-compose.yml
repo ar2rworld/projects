@@ -24,6 +24,5 @@ volumes:
 
 networks:
   projectsnetwork:
-    driver: overlay
-    driver_opts:
-      scope: swarm
+    external: true
+
