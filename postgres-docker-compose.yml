@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:15.5'
+
+    ports:
+      - 5432:5432
+
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USER: ${POSTGRES_USER} # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: ${POSTGRES_DB} # The PostgreSQL default database (automatically created at first launch)
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    
+    networks:
+      - projectsnetwork
+
+volumes:
+  postgres:
+    external: true
+
+networks:
+  projectsnetwork:
+    driver: overlay
+    driver_opts:
+      scope: swarm
