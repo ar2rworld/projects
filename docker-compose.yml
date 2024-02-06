@@ -15,6 +15,8 @@ services:
       KEYCLOAK_HOST: ${KEYCLOAK_HOST}
       KEYCLOAK_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME}
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+    networks:
+      - projectsnetwork
     depends_on:
       - keycloak
 
@@ -35,3 +37,9 @@ services:
       - 'start-dev'
     ports:
       - '8080:8080'
+    networks:
+      - projectsnetwork
+
+networks:
+  projectsnetwork:
+    external: true
