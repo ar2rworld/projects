@@ -55,13 +55,13 @@ type Me struct {
 }
 
 type Controller struct {
+	NotificatorToken string
+	NotificatorChatID string
 	Keycloak *keycloak.Keycloak
 }
 
-func NewController(keycloak *keycloak.Keycloak) *Controller {
-	return &Controller{
-		Keycloak: keycloak,
-	}
+func NewController() *Controller {
+	return &Controller{}
 }
 
 func (c *Controller) getDocs(w http.ResponseWriter, r *http.Request) {

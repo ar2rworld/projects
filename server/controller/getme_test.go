@@ -40,7 +40,7 @@ func TestGetMe(t *testing.T) {
 	
 	k.Gocloak = mockCloak
 
-	c := NewController(k)
+	c := NewController()
 
 	r, _  := http.NewRequest(http.MethodGet, "/me", nil)
 	r.Header.Add("Authorization", authToken)
