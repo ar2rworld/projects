@@ -15,7 +15,10 @@
       method: "POST",
       body: JSON.stringify({
         name, email, message
-      })
+      }),
+      headers: {
+        "Access-Control-Allow-Origin": "*"
+      }
     })
     .then((e:Response) => {
       console.log(e);
