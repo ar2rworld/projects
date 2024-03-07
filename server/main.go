@@ -10,7 +10,6 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 
-	"github.com/ar2rworld/projects-backend/keycloak"
 	"github.com/ar2rworld/projects-backend/controller"
 )
 
@@ -21,12 +20,9 @@ func main() {
 
 	r := chi.NewRouter()
 
-	kc, err := keycloak.NewKeycloak()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	controller := controller.NewController(kc)
+	controller := controller.NewController()
+	controller.NotificatorToken = os.Getenv("NOTIFICATOR_TOKEN")
+	controller.NotificatorChatID = os.Getenv("NOTIFICATOR_CHAT_ID")
 
 	r.Use(middleware.Logger)
 	r.Use(cors.Handler(cors.Options{
@@ -38,12 +34,12 @@ func main() {
     MaxAge:           300, // Maximum value not ignored by any of major browsers
   }))
 
-	r.Route("/projectsapi", func(r chi.Router) {
+	r.Route("/api", func(r chi.Router) {
 
 		r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
 			// no auth
 			if w.Header().Get("Authorization") == "" {
- 				controller.Login(w, r)
+ 				controller.KratosLogin(w, r)
 			}
 		})
 
@@ -60,6 +56,9 @@ func main() {
 
 		r.Get("/me", func (w http.ResponseWriter, r *http.Request) {
 			controller.GetMe(w, r)
+		})
+		r.Post("/contact", func(w http.ResponseWriter, r *http.Request) {
+			controller.Contact(w, r)
 		})
 	})
 
