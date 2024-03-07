@@ -7,3 +7,5 @@ services:
     environment:
       NOTIFICATOR_TOKEN: ${NOTIFICATOR_TOKEN}
       NOTIFICATOR_CHAT_ID: ${NOTIFICATOR_CHAT_ID}
+    ports:
+      - "8050:8050"
