@@ -36,12 +36,12 @@ func main() {
 
 	r.Route("/api", func(r chi.Router) {
 
-		r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
-			// no auth
-			if w.Header().Get("Authorization") == "" {
- 				controller.KratosLogin(w, r)
-			}
-		})
+		// r.Post("/login", func(w http.ResponseWriter, r *http.Request) {
+		// 	// no auth
+		// 	if w.Header().Get("Authorization") == "" {
+ 		// 		controller.KratosLogin(w, r)
+		// 	}
+		// })
 
 		r.Post("/register", func(w http.ResponseWriter, r *http.Request) {
 			// no auth
