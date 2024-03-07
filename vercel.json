@@ -25,10 +25,10 @@
 			]
 		}
 	],
-	"rewrites": [
-		{
-			"source": "^/api",
-			"destination": "https://192.18.155.170:8050"
-		}
-	]
+	// "rewrites": [
+	// 	{
+	// 		"source": "^/api",
+	// 		"destination": "https://192.18.155.170:8050"
+	// 	}
+	// ]
 }
