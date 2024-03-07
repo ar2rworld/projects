@@ -118,6 +118,7 @@
 						<Label>login</Label>
 					</Button>
 				<a href="/register">Don't have account?</a>
+				<p>Login is not supported right now</p>
 	</Cell>
 
 	<Cell span={4}>
