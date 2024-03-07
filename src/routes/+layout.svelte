@@ -128,7 +128,6 @@
 		checked={currentTheme !== THEMES.DARK}
 		on:click={toggleTheme}
 	/>
-	<Hint />
 </nav>
 
 <slot />
