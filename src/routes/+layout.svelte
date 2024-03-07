@@ -113,6 +113,7 @@
 	<a href="/" aria-current={$page.url.pathname === '/'}> home </a>
 
 	<a href="/projects" aria-current={$page.url.pathname === '/projects'}> projects </a>
+	<a href="/contact" aria-current={$page.url.pathname === '/contact'}>contact</a>
 	<a href="/about" aria-current={$page.url.pathname === '/about'}> about </a>
 	<a href="/blog" aria-current={$page.url.pathname === '/blog'}> blog </a>
 	<a href="/shop" aria-current={$page.url.pathname === '/shop'}> shop </a>
