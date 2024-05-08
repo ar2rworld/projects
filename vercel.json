@@ -28,7 +28,7 @@
 	"rewrites": [
 		{
 			"source": "/api/(.*)",
-			"destination": "https://192.18.155.170:8050"
+			"destination": "https://zxdkzryj7yikjsjvk2gzoao4mq0fjmqu.lambda-url.us-east-2.on.aws/"
 		}
 	]
 }

@@ -35,11 +35,13 @@
   }
 </script>
 
+<div class="max-w-xl mx-auto">
 <form on:submit={handleSubmit}>
   <h1>Enter your information:</h1>
   <div><p>Name:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="text" bind:value={name} required/></div>
   <div><p>Email:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="email" bind:value={email} required/></div>
   <div><p>Message:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="text" bind:value={message} required/></div>
-  <input type="submit" value="send" />
+  <input class="bg-bg-3 w-max m-1" type="submit" value="send" />
   {output ? output : ""}
 </form>
+</div>

@@ -116,12 +116,12 @@
 	<a href="/contact" aria-current={$page.url.pathname === '/contact'}>contact</a>
 	<a href="/about" aria-current={$page.url.pathname === '/about'}> about </a>
 	<a href="/blog" aria-current={$page.url.pathname === '/blog'}> blog </a>
-	<a href="/shop" aria-current={$page.url.pathname === '/shop'}> shop </a>
-	{ #if ! username }
+	<!-- <a href="/shop" aria-current={$page.url.pathname === '/shop'}> shop </a> -->
+	<!-- { #if ! username }
 		<a href="/login" aria-current={$page.url.pathname === '/login'}>login</a>
 	{ :else }
 		<a href="/me" aria-current={$page.url.pathname === '/me'}>me</a>
-	{ /if}
+	{ /if} -->
 	<HintFeedback />
 	<input
 		class="ml-auto"

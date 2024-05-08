@@ -6,9 +6,9 @@ export default defineConfig({
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
-	// server: {
-	// 	proxy: {
-	// 		'^/api': 'https://192.18.155.170:8050'
-	// 	}
-	// }
+	server: {
+		proxy: {
+			'^/api': 'https://zxdkzryj7yikjsjvk2gzoao4mq0fjmqu.lambda-url.us-east-2.on.aws/'
+		}
+	}
 });

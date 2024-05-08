@@ -7,18 +7,19 @@
 	} from '../../stores/RevealedStore';
 </script>
 
+<div class="max-w-xl mx-auto">
 <h1>About page</h1>
 
 <h3>I think that I have provided enough information on the <a href="/">home page</a>.</h3>
 <h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.EMAIL)}>
 	But if you are looking for my humanreadable email:
 	{#if $RevealedStore.EMAIL}
-		<address>{RevealedPhrases.EMAIL}</address>
-		<code>
+		<address><a href="mailto:{RevealedPhrases.EMAIL}">{RevealedPhrases.EMAIL}</a></address>
+		<!-- <code>
 			# Don't forget to replace:<br />
 			(dot) = .<br />
 			(at) = @
-		</code>
+		</code> -->
 	{:else}
 		...
 	{/if}
@@ -40,16 +41,17 @@
 	{/if}
 	(please hover over one more time)
 </h3>
+</div>
 
 <style>
-	code {
+	/* code {
 		display: block;
 		border-radius: var(--border-radius);
 		font-family: Consolas, 'courier new';
 		background-color: var(--bg-3);
 		padding: 2px;
 		font-size: 105%;
-	}
+	} */
 	address {
 		margin: 1%;
 	}
