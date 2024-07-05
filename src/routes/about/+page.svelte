@@ -16,13 +16,8 @@
 	But if you are looking for my humanreadable email:
 	{#if $RevealedStore.EMAIL}
 		<address><a href="mailto:{RevealedPhrases.EMAIL}">{RevealedPhrases.EMAIL}</a></address>
-		<!-- <code>
-			# Don't forget to replace:<br />
-			(dot) = .<br />
-			(at) = @
-		</code> -->
 	{:else}
-		...
+		<Dots />
 	{/if}
 </h3>
 <h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.GITHUB)}>
