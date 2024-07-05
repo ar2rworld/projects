@@ -23,7 +23,7 @@ export const RevealedStore = writable({
 	LIFE: false,
 	HOMEINFO: false,
 	GITHUB: false,
-	EMAIL: true,
+	EMAIL: false,
 	LINKEDIN: false,
 	HINTBADGE: false
 });
@@ -56,7 +56,6 @@ export const handleReveal = (key: RevealedStoreKeysE) => {
 		// count how many hints were revealed
 		RevealedHints.update(() => {
 			const revealedHints = Object.values(s).filter((v) => v == true).length;
-
 			switch (revealedHints) {
 				case 1:
 					if (!hintFeedbackMessages[0].used) {
@@ -64,19 +63,19 @@ export const handleReveal = (key: RevealedStoreKeysE) => {
 						hintFeedbackMessages[0].used = true;
 					}
 					break;
-				case 3:
+				case 2:
 					if (!hintFeedbackMessages[1].used) {
 						hintFeedback.push(hintFeedbackMessages[1].message);
 						hintFeedbackMessages[1].used = true;
 					}
 					break;
-				case 5:
+				case 4:
 					if (!hintFeedbackMessages[2].used) {
 						hintFeedback.push(hintFeedbackMessages[2].message);
 						hintFeedbackMessages[2].used = true;
 					}
 					break;
-				case 6:
+				case 5:
 					if (!hintFeedbackMessages[3].used) {
 						hintFeedback.push(hintFeedbackMessages[3].message);
 						hintFeedbackMessages[3].used = true;
