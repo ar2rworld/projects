@@ -1,5 +1,6 @@
 <script lang="ts">
-	import {
+	import Dots from '../components/Dots.svelte';
+import {
 		RevealedPhrases,
 		RevealedStore,
 		RevealedStoreKeysE,
@@ -14,12 +15,20 @@
 	<h2>But you can call me Artur</h2>
 	<br />
 	<h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.LIFE)}>
-		I hope that you will have a good {$RevealedStore.LIFE ? RevealedPhrases.LIFE : '...'}
+		I hope that you will have a good
+		{ #if $RevealedStore.LIFE }
+			{ RevealedPhrases.LIFE }
+		{ :else }
+			<Dots/>
+		{ /if } 
 	</h3>
 	<h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.HOMEINFO)}>
-		If you click on the "projects" tab you will find {$RevealedStore.HOMEINFO
-			? RevealedPhrases.HOMEINFO
-			: '....'}
+		If you click on the "projects" tab you will find
+		{ #if $RevealedStore.HOMEINFO }
+			{ RevealedPhrases.HOMEINFO }
+		{ :else }
+			<Dots/>
+		{ /if }
 	</h3>
 </div>
 

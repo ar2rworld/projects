@@ -13,7 +13,7 @@
 		  }[]
 		| undefined;
 
-	let more = 'more';
+	let more = 'read more';
 	let interval: NodeJS.Timeout;
 
 	function addDots() {
@@ -27,7 +27,7 @@
 		hoveredProject.update(() => id);
 	}
 	function removeDots() {
-		more = 'more';
+		more = 'read more';
 		clearInterval(interval);
 		hoveredProject.update(() => '');
 	}

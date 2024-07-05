@@ -5,6 +5,7 @@
 		RevealedStoreKeysE,
 		handleReveal
 	} from '../../stores/RevealedStore';
+	import Dots from '../../components/Dots.svelte';
 </script>
 
 <div class="max-w-xl mx-auto">
@@ -29,7 +30,7 @@
 	{#if $RevealedStore.GITHUB}
 		<a href={RevealedPhrases.GITHUB} target="_blank">github</a>
 	{:else}
-		....
+		<Dots/>
 	{/if}
 </h3>
 <h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.LINKEDIN)}>
