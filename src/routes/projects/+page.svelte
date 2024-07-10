@@ -12,6 +12,7 @@
 			name={project.name}
 			url={project.url}
 			src_url={project.src_url}
+			logo={project.logo}
 			technologies={project.technologies}
 		/>
 	{/each}

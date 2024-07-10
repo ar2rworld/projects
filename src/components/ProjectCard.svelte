@@ -12,6 +12,7 @@
 				img: string;
 		  }[]
 		| undefined;
+	export let logo: string | undefined;
 
 	let more = 'read more';
 	let interval: NodeJS.Timeout;
@@ -37,6 +38,9 @@
 </script>
 
 <div class="h-max p-2 rounded-lg border-2 border-fg-2">
+	{ #if logo }
+		<img class="p-1 h-40 mx-auto rounded-lg border-2 border-fg-3" src="{logo}" alt="{name} project logo" />
+	{ /if }
 	<h2>{name}</h2>
 	<div class="grid mx-1 my-0">
 		<div>
