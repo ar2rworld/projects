@@ -8,7 +8,7 @@ export const projects = [
 		description:
 			"Hello there, just a simple telegram bot friends conversation Has a youtube notificator feature by subscribing to pubsubhubbub's rss to send a message about new uploaded videos.\nAble to echo some phrases to the chat if key words were found.\n50/50 chance commands",
 		descriptionHTML:
-			"Hello there, just a simple telegram bot friends conversation<br/>Has a youtube notificator feature by subscribing to pubsubhubbub's rss to send a message about new uploaded videos.<br/>Able to echo some phrases to the chat if key words were found.<br/>50/50 chance commands.",
+			"Hello there, just a simple telegram bot friends conversation<br/>Has a youtube notificator feature by subscribing to pubsubhubbub's rss to send a message about new uploaded videos.<br/>Able to echo some phrases to the chat if key words were found.<br/>50/50 chance commands.<br /><h1>UDP</h1><p>Moved video downloading capability to different bot written with golang.</p>",
 		technologies: [
 			{
 				name: 'python',
