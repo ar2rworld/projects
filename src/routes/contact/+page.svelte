@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
+	import Dots from "../../components/Dots.svelte";
+
   let name = "";
   let email = "";
   let message = "";
@@ -33,15 +36,30 @@
       output = "Something went wrong((("
     })
   }
+
+  let showHow = false;
+  const toggle = (b: boolean) => {
+    showHow = b;
+  }
+
 </script>
 
-<div class="max-w-xl mx-auto">
+<div class="mx-auto text-center">
 <form on:submit={handleSubmit}>
-  <h1>Enter your information:</h1>
-  <div><p>Name:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="text" bind:value={name} required/></div>
-  <div><p>Email:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="email" bind:value={email} required/></div>
-  <div><p>Message:</p><input class="bg-bg-3 dark:bg-d-bg-3" type="text" bind:value={message} required/></div>
-  <input class="bg-bg-3 w-max m-1" type="submit" value="send" />
+  <h1>Enter your info:</h1>
+  <div class="max-w-sm mx-auto">
+    <div class="my-1"><p class="text-left">Name:</p><input class="w-full bg-bg-3 dark:bg-d-bg-3" type="text" bind:value={name} required/></div>
+    <div class="my-1"><p class="text-left">Email:</p><input class="w-full bg-bg-3 dark:bg-d-bg-3" type="email" bind:value={email} required/></div>
+    <div class="my-1"><p class="text-left">Message:</p><textarea class="w-full bg-bg-3 dark:bg-d-bg-3 rounded-sm border-2 border-dashed border-fg-2" bind:value={message} required/></div>
+    <div><input class="bg-bg-3 w-full rounded-lg border-2 border-fg-2" type="submit" value="send" /></div>
+    <p class="text-sm text-right" on:mouseenter={() => toggle(true)} on:mouseleave={() => toggle(false)}>how does this form works<Dots character="?" min={2} max={3} />
+      { #if showHow }
+        <p class="text-right">
+          Thanks to an <a href="https://aws.amazon.com/lambda/" target="_blank">AWS Lambda function</a> written in Go, an API request is sent to <a href="https://core.telegram.org/bots/api" target="_blank">Telegram as a bot</a> to trigger the sending of a message.
+        </p>
+      { /if }
+    </p>
+  </div>
   {output ? output : ""}
 </form>
 </div>
