@@ -12,6 +12,7 @@
 <h1>About page</h1>
 
 <h3>I think that I have provided enough information on the <a href="/">home page</a>.</h3>
+<p class="text-sm">I also love fishing, enjoy hiking and other outdoor activities as well as video games and watching soccer.</p>
 <h3 on:mouseenter={() => handleReveal(RevealedStoreKeysE.EMAIL)}>
 	But if you are looking for my humanreadable email:
 	{#if $RevealedStore.EMAIL}
