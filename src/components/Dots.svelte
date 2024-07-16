@@ -6,7 +6,7 @@
   export let max: number = 5;
 
   if (max < min) {
-    console.warn("why did you enter max < min?")
+    console.warn("Dots.svelte: why did you enter max < min?")
   }
   
   let randomNumber = Math.round(Math.random() * min + (max - min) ); // [3..5]
